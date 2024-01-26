@@ -57,6 +57,10 @@ public class DataReader {
         }
     }
     
+    public static void editData() {
+        
+    }
+    
     public static StudentData getStudentData(String name) {
         for(StudentData data : studentData) {
             if(data.getName().equals(name)) return data;
@@ -78,22 +82,33 @@ public class DataReader {
         return null;
     }
     
-    public static String getPasswordForUserType(String name) {
+    public static int getType(String name) {
         StudentData studentData = DataReader.getStudentData(name);
         if (studentData != null) {
-            return studentData.getPassword();
+            return 0;
         }
 
         TAData taData = DataReader.getTAData(name);
         if (taData != null) {
-            return taData.getPassword();
+            return 1;
         }
 
         ProfessorData professorData = DataReader.getProfessorData(name);
         if (professorData != null) {
-            return professorData.getPassword();
+            return 2;
         }
 
-        return null;
+        return -1;
+    }
+    
+    public static String getPasswordForUserType(String name) {
+        int userType = getType(name);
+
+        return switch (userType) {
+            case 0 -> DataReader.getStudentData(name).getPassword();
+            case 1 -> DataReader.getTAData(name).getPassword();
+            case 2 -> DataReader.getProfessorData(name).getPassword();
+            default -> null;
+        };
     }
 }

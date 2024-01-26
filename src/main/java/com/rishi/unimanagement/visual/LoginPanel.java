@@ -3,6 +3,7 @@ package com.rishi.unimanagement.visual;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import com.rishi.unimanagement.data.DataReader;
 
 public class LoginPanel extends JPanel {
@@ -39,13 +40,38 @@ public class LoginPanel extends JPanel {
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         add(loginButton, gbc);
-
-        loginButton.addActionListener((ActionEvent e) -> {
-            if (performLogin()) {
-                cardLayout.show(cardPanel, "options");
-            }
+        
+        loginButton.addActionListener((ActionEvent evt) -> {
+            submitActionPerformed(evt, cardLayout, cardPanel);
         });
     }
+    
+    private void submitActionPerformed(ActionEvent evt, CardLayout cardLayout, JPanel cardPanel) {                                         
+        if (performLogin()) {
+                String userName = userTextField.getText();
+                
+                switch(DataReader.getType(userName)) {
+                    case 0 -> {
+                        StudentPanel studentPanel = new StudentPanel(cardLayout, cardPanel, userName);
+
+                        cardPanel.add(studentPanel, "student");
+                        cardLayout.show(cardPanel, "student");
+                    }
+                    case 1 -> {
+                        TAPanel taPanel = new TAPanel(cardLayout, cardPanel, userName);
+
+                        cardPanel.add(taPanel, "ta");
+                        cardLayout.show(cardPanel, "ta");
+                    }   
+                    case 2 -> {
+                        ProfessorPanel profPanel = new ProfessorPanel(cardLayout, cardPanel, userName);
+
+                        cardPanel.add(profPanel, "professor");
+                        cardLayout.show(cardPanel, "professor");
+                    }
+                }
+            }
+    }   
     
     private boolean performLogin() {
         String name = userTextField.getText();

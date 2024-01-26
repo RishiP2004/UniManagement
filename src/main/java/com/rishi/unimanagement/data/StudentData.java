@@ -6,24 +6,21 @@ package com.rishi.unimanagement.data;
 
 public class StudentData extends UserData {
     private final double gpa;
-    private final String tuition;
 
-    public StudentData(String name, String password, double gpa, String tuition) {
+    public StudentData(String name, String password, double gpa) {
         super(name, password);
         this.gpa = gpa;
-        this.tuition = tuition;
     }
     
     public double getGPA() { 
-        return gpa;
+        return gpa; //calculate.
     }
     
-    public String getTuition() { 
-        return tuition;
+    public Grade getGrades() {
+        
     }
     
-    @Override
-    public String toString() {
-        return "Student: " + name + ", Password: " + password + ", GPA: " + gpa + ", Tuition: " + tuition;
+    public void setGrades() {
+        
     }
 }

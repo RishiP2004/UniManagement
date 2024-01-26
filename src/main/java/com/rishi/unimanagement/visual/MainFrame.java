@@ -23,9 +23,6 @@ public class MainFrame extends JFrame {
         LoginPanel loginPanel = new LoginPanel(cardLayout, cardPanel);
         cardPanel.add(loginPanel, "login");
 
-        OptionsPanel optionsPanel = new OptionsPanel();
-        cardPanel.add(optionsPanel, "options");
-
         add(cardPanel);
 
         cardLayout.show(cardPanel, "login");   
