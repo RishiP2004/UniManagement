@@ -3,8 +3,9 @@ package com.rishi.unimanagement.visual;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import com.rishi.unimanagement.data.DataReader;
+import com.rishi.unimanagement.data.Database;
+import static com.rishi.unimanagement.data.Database.getUserData;
+import com.rishi.unimanagement.data.UserData;
 
 public class LoginPanel extends JPanel {
     private final JTextField userTextField;
@@ -50,7 +51,7 @@ public class LoginPanel extends JPanel {
         if (performLogin()) {
                 String userName = userTextField.getText();
                 
-                switch(DataReader.getType(userName)) {
+                switch(Database.getUserData(userName).getType()) {
                     case 0 -> {
                         StudentPanel studentPanel = new StudentPanel(cardLayout, cardPanel, userName);
 
@@ -78,9 +79,8 @@ public class LoginPanel extends JPanel {
 
         char[] passwordChars = passwordField.getPassword();
         String password = new String(passwordChars);
-
-        String testPass = DataReader.getPasswordForUserType(name);
-
-        return !name.isEmpty() && password.length() > 0 && testPass.equals(password);
+        
+        UserData userData = getUserData(name);
+        return (userData != null) && userData.getPassword().length() > 0 && userData.getPassword().equals(password);
     }
 }
