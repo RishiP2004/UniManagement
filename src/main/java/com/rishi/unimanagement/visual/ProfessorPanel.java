@@ -1,21 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.rishi.unimanagement.visual;
 
 import java.awt.CardLayout;
 import javax.swing.JPanel;
+import com.rishi.unimanagement.data.Database;
+import com.rishi.unimanagement.data.ProfessorData;
+import com.rishi.unimanagement.visual.option.StudentManagementOption;
+import com.rishi.unimanagement.visual.option.TAManagementOption;
 
-/**
- *
- * @author Paresh
- */
 public class ProfessorPanel extends javax.swing.JPanel {
-    public String name;
+    public ProfessorData prof;
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
     
     public ProfessorPanel(CardLayout cardLayout, JPanel cardPanel, String name) {
-        this.name = name;
+        prof = (ProfessorData) Database.getUserData(name);
     }
 
     /**
@@ -28,19 +26,25 @@ public class ProfessorPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        taButton = new javax.swing.JButton();
+        studentButton = new javax.swing.JButton();
 
-        jLabel1.setText("Logged in as {name}");
+        String name = prof.getName();
+        jLabel1.setText(String.format("Logged in as %d", name));
 
-        jButton3.setText("TA Management");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        taButton.setText("TA Management");
+        taButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                taButtonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Student Management");
+        studentButton.setText("Student Management");
+        studentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -54,8 +58,8 @@ public class ProfessorPanel extends javax.swing.JPanel {
                         .addGap(154, 154, 154))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(taButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(studentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(128, 128, 128))))
         );
         layout.setVerticalGroup(
@@ -64,21 +68,31 @@ public class ProfessorPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(35, 35, 35)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(studentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(taButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void taButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taButtonActionPerformed
+        TAManagementOption panel = new TAManagementOption(prof);
+
+        cardPanel.add(panel, "taManage");
+        cardLayout.show(cardPanel, "taManage");
+    }//GEN-LAST:event_taButtonActionPerformed
+
+    private void studentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentButtonActionPerformed
+        StudentManagementOption panel = new StudentManagementOption(prof);
+
+        cardPanel.add(panel, "studentManage");
+        cardLayout.show(cardPanel, "studentManage");
+    }//GEN-LAST:event_studentButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton studentButton;
+    private javax.swing.JButton taButton;
     // End of variables declaration//GEN-END:variables
 }

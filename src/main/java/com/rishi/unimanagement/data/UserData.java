@@ -1,8 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.rishi.unimanagement.data;
+
+import org.bson.Document;
+import com.mongodb.client.MongoCollection;
 
 public abstract class UserData {
     public static final int STUDENT = 1;
@@ -33,7 +32,6 @@ public abstract class UserData {
             updatePasswordInDatabase(newPass);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -53,7 +51,7 @@ public abstract class UserData {
                         collectionName = Database.PROFESSOR_COLLECTION_NAME;
                     }
                 }
-                MongoCollection<Document> collection = Database.database.getCollection(collectionName);
+                MongoCollection<Document> collection = Database.get().getCollection(collectionName);
                 Document filter = new Document("name", getName());
                 Document update = new Document("$set", new Document("password", newPass));
                 collection.updateOne(filter, update);

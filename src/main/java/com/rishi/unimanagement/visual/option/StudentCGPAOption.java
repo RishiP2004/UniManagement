@@ -3,17 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.rishi.unimanagement.visual.option;
-
-import com.rishi.unimanagement.data.Database;
-
+import com.rishi.unimanagement.data.StudentData;
 
 public class StudentCGPAOption extends javax.swing.JPanel {
     public StudentData student;
-    /**
-     * Creates new form StudentGradesOption
-     */
-    public StudentCGPAOption(String name) {
-        student = Database.getUserData(name);
+  
+    public StudentCGPAOption(StudentData data) {
+        student = data;
         initComponents();
     }
 
@@ -28,7 +24,7 @@ public class StudentCGPAOption extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
 
-        cgpa = student.getCGPA();
+        double cgpa = student.getCGPA();
         jLabel1.setText(String.format("Your CGPA: %d", cgpa));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

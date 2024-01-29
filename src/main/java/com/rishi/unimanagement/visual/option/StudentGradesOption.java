@@ -4,15 +4,13 @@
  */
 package com.rishi.unimanagement.visual.option;
 
-import com.rishi.unimanagement.data.Database;
+import com.rishi.unimanagement.data.StudentData;
 
 public class StudentGradesOption extends javax.swing.JPanel {
     public StudentData student;
-    /**
-     * Creates new form StudentGradesOption
-     */
-    public StudentGradesOption(String name) {
-        student = Database.getUserData(name);
+
+    public StudentGradesOption(StudentData data) {
+        student = data;
         initComponents();
     }
 

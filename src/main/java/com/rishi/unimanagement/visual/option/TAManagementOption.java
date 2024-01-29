@@ -4,16 +4,13 @@
  */
 package com.rishi.unimanagement.visual.option;
 
-/**
- *
- * @author Paresh
- */
-public class TAManagementOption extends javax.swing.JPanel {
+import com.rishi.unimanagement.data.ProfessorData;
 
-    /**
-     * Creates new form TAManagementOption
-     */
-    public TAManagementOption() {
+public class TAManagementOption extends javax.swing.JPanel {
+    private ProfessorData prof;
+    
+    public TAManagementOption(ProfessorData prof) {
+        this.prof = prof;
         initComponents();
     }
 

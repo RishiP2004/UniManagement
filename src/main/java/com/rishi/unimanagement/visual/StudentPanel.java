@@ -1,21 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.rishi.unimanagement.visual;
 
+import com.rishi.unimanagement.data.Database;
+import com.rishi.unimanagement.data.StudentData;
+import com.rishi.unimanagement.visual.option.StudentCGPAOption;
+import com.rishi.unimanagement.visual.option.StudentGradesOption;
+import com.rishi.unimanagement.visual.option.ChangePassOption;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Paresh
- */
-public class StudentPanel extends javax.swing.JPanel {
-    public String name;
+public class StudentPanel extends JPanel {
+    private final StudentData student;
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
     
     public StudentPanel(CardLayout cardLayout, JPanel cardPanel, String name) {
-        this.name = name;
+        student = (StudentData) Database.getUserData(name);
     }
 
     /**
@@ -27,31 +26,38 @@ public class StudentPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton2 = new javax.swing.JButton();
+        cgpaButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         gradesButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        changePassButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
-        jButton2.setText("Check CGPA");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        cgpaButton.setText("Check CGPA");
+        cgpaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                cgpaButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Logged in as Student: {name}");
+        String name = student.getName();
+        jLabel1.setText(String.format("Logged in as Student: %d", name));
 
         gradesButton.setText("Check Grades");
-
-        jButton1.setText("change password");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        gradesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                gradesButtonActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Section: {section}");
+        changePassButton.setText("change password");
+        changePassButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changePassButtonActionPerformed(evt);
+            }
+        });
+
+        int section = student.getSection();
+        jLabel2.setText(String.format("Section: %d", section));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -61,7 +67,7 @@ public class StudentPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(changePassButton)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -69,8 +75,8 @@ public class StudentPanel extends javax.swing.JPanel {
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                                .addComponent(cgpaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(122, 122, 122))))
         );
         layout.setVerticalGroup(
@@ -81,7 +87,7 @@ public class StudentPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cgpaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
@@ -89,24 +95,37 @@ public class StudentPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(gradesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(changePassButton)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void cgpaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cgpaButtonActionPerformed
+        StudentCGPAOption panel = new StudentCGPAOption(student);
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        cardPanel.add(panel, "cgpa");
+        cardLayout.show(cardPanel, "cgpa");
+    }//GEN-LAST:event_cgpaButtonActionPerformed
+
+    private void changePassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePassButtonActionPerformed
+        ChangePassOption panel = new ChangePassOption(student);
+
+        cardPanel.add(panel, "grades");
+        cardLayout.show(cardPanel, "grades");
+    }//GEN-LAST:event_changePassButtonActionPerformed
+
+    private void gradesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradesButtonActionPerformed
+        StudentGradesOption panel = new StudentGradesOption(student);
+
+        cardPanel.add(panel, "grades");
+        cardLayout.show(cardPanel, "grades");
+    }//GEN-LAST:event_gradesButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cgpaButton;
+    private javax.swing.JButton changePassButton;
     private javax.swing.JButton gradesButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables

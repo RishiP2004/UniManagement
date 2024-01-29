@@ -4,14 +4,18 @@
  */
 package com.rishi.unimanagement.visual;
 
+import com.rishi.unimanagement.data.Database;
+import com.rishi.unimanagement.data.TAData;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 
 public class TAPanel extends javax.swing.JPanel {
-    public String name;
+    private final TAData ta;
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
     
     public TAPanel(CardLayout cardLayout, JPanel cardPanel, String name) {
-        this.name = name;
+        ta = (TAData) Database.getUserData(name);
     }
 
     /**
@@ -35,7 +39,8 @@ public class TAPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("Logged in as {name}");
+        String name = ta.getName();
+        jLabel1.setText("Logged in as: %d", name);
 
         jButton1.setText("change password");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -44,7 +49,8 @@ public class TAPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setText("Section: {section}");
+        int section = student.getSection();
+        jLabel2.setText(String.format("Section: %d", section));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

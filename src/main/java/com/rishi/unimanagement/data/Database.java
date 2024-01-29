@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.rishi.unimanagement.data;
 
 import java.util.ArrayList;
@@ -13,18 +9,13 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.Document;
+import org.bson.Document;
 
 public final class Database implements DatabaseKeys {
-    public static final String DATABASE_NAME = "unimanagement";
-    public static final String STUDENT_COLLECTION_NAME = "studentData";
-    public static final String TA_COLLECTION_NAME = "taData";
-    public static final String PROFESSOR_COLLECTION_NAME = "profData";
-
     private static MongoDatabase database;
-    private static List<StudentData> studentData = new ArrayList<>();
-    private static List<TAData> taData = new ArrayList<>();
-    private static List<ProfessorData> profData = new ArrayList<>();
+    private static final List<StudentData> studentData = new ArrayList<>();
+    private static final List<TAData> taData = new ArrayList<>();
+    private static final List<ProfessorData> profData = new ArrayList<>();
 
     public Database() {
         connect();
@@ -39,7 +30,6 @@ public final class Database implements DatabaseKeys {
         try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
             database = mongoClient.getDatabase(DATABASE_NAME);
         } catch (Exception e) {
-            e.printStackTrace();
             System.exit(0);
         }
     }
@@ -66,7 +56,6 @@ public final class Database implements DatabaseKeys {
                         new ProfessorData(document.getString("name"), document.getString("password")));
             }
         } catch (Exception e) {
-            handleException(e);
         }
     }
 

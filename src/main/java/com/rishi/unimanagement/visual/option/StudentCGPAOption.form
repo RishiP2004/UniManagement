@@ -41,7 +41,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="cgpa = student.getCGPA();"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="double cgpa = student.getCGPA();"/>
       </AuxValues>
     </Component>
   </SubComponents>

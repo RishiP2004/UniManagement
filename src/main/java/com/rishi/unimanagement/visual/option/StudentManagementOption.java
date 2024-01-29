@@ -4,16 +4,14 @@
  */
 package com.rishi.unimanagement.visual.option;
 
-/**
- *
- * @author Paresh
- */
-public class StudentManagementOption extends javax.swing.JPanel {
+import com.rishi.unimanagement.data.ProfessorData;
 
-    /**
-     * Creates new form StudentManagement
-     */
-    public StudentManagementOption() {
+
+public class StudentManagementOption extends javax.swing.JPanel {
+    private ProfessorData prof;
+    
+    public StudentManagementOption(ProfessorData prof) {
+        this.prof = prof;
         initComponents();
     }
 
