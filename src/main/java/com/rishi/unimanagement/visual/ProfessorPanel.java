@@ -9,10 +9,13 @@ import com.rishi.unimanagement.visual.option.TAManagementOption;
 
 public class ProfessorPanel extends javax.swing.JPanel {
     public ProfessorData prof;
-    private CardLayout cardLayout;
-    private JPanel cardPanel;
+    private final CardLayout cardLayout;
+    private final JPanel cardPanel;
     /**
      * Creates new form ProfessorPanel
+     * @param cardLayout
+     * @param cardPanel
+     * @param name
      */
     public ProfessorPanel(CardLayout cardLayout, JPanel cardPanel, String name) {
         prof = (ProfessorData) Database.getUserData(name);
@@ -80,7 +83,7 @@ public class ProfessorPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void taButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taButtonActionPerformed
-        TAManagementOption panel = new TAManagementOption(prof);
+        TAManagementOption panel = new TAManagementOption(cardLayout, cardPanel);
 
         cardPanel.add(panel, "taManage");
         cardLayout.show(cardPanel, "taManage");

@@ -5,6 +5,8 @@
 package com.rishi.unimanagement.visual.option;
 
 import com.rishi.unimanagement.data.StudentData;
+import java.util.Map;
+import java.util.Set;
 
 public class FinalGradesEdit extends javax.swing.JPanel {
     private final StudentData student;
@@ -36,15 +38,22 @@ public class FinalGradesEdit extends javax.swing.JPanel {
 
         jLabel2.setText("Grades");
 
+        Map<String, Integer> grades = student.getGrades();
+        Set<String> gradeKeys = grades.keySet();
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = student.getGrades();
+            String[] strings = gradeKeys.toArray(new String[0]);;
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane1.setViewportView(jList1);
 
-        String grade = student.getGrade(jList.getSelectedValue());
-        jTextField1.setText(grade);
+        Integer grade = student.getGrade(jList1.getSelectedValue());
+        jTextField1.setText(String.valueOf(grade));
+        jTextField1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTextField1PropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -76,9 +85,18 @@ public class FinalGradesEdit extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField1PropertyChange
+        Integer grade = Integer.valueOf(jTextField1.getText());
+        
+        if (!(grade >= 0 && grade <= 3)) {
+            return;
+        } 
+        student.setGrade(jTextField1.getText(), grade);
+    }//GEN-LAST:event_jTextField1PropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
