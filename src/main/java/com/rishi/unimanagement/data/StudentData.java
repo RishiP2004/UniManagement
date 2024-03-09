@@ -7,13 +7,13 @@ import com.mongodb.client.MongoCollection;
 public class StudentData extends UserData {
     private int section;
     private final Map<String, Integer> grades;
-
     public StudentData(String name, String password, int section, Map<String, Integer> grades) {
         super(name, password);
         this.section = section;
         this.grades = grades;
     }
     
+    @Override
     public int getType() {
         return STUDENT;
     }
@@ -48,6 +48,19 @@ public class StudentData extends UserData {
         return grades;
     }
 
+    public String getFormattedGrades() {
+        StringBuilder formattedGrades = new StringBuilder();
+
+        for (Map.Entry<String, Integer> entry : grades.entrySet()) {
+            String subject = entry.getKey();
+            int grade = entry.getValue();
+
+            formattedGrades.append(subject).append(": ").append(grade).append("\n");
+        }
+
+        return formattedGrades.toString();
+    }
+    
     public boolean setGrade(String subject, int newGrade) {
         try {
             if (grades.containsKey(subject)) {
@@ -59,6 +72,10 @@ public class StudentData extends UserData {
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    public int getGrade(String subject) {
+        return grades.get(subject);
     }
 
     private void updateGradeInDatabase(String subject, int newGrade) {
@@ -75,6 +92,11 @@ public class StudentData extends UserData {
     }
     
     public double getCGPA() {
-        //todo: calculate
+        int total = 0;
+
+        for (int grade : grades.values()) {
+            total += grade;
+        }
+        return total / (double) grades.size();
     }
 }

@@ -52,7 +52,7 @@ public final class Database implements DatabaseKeys {
                     return new TAData(name, password, section);
                 });
 
-                readUserData(PROFESSOR_COLLECTION_NAME, profData, document ->
+                readUserData(PROFESSOR_COLLECTION_NAME, profData, document -> 
                         new ProfessorData(document.getString("name"), document.getString("password")));
             }
         } catch (Exception e) {
@@ -67,6 +67,10 @@ public final class Database implements DatabaseKeys {
             userDataList.add(userData);
         }
     }
+    
+    public static List<TAData> getAllTAs() {
+        return taData;
+    }
 
     public static UserData getUserData(String name) {
         return Stream.of(studentData, taData, profData)
@@ -75,7 +79,14 @@ public final class Database implements DatabaseKeys {
                 .findFirst()
                 .orElse(null);
     }
-
+    
+    public static List<String> getStudentsBySection(int section) {
+        return studentData.stream()
+                .filter(data -> data.getSection() == section)
+                .map(UserData::getName)
+                .collect(Collectors.toList());
+    }
+    
     public static String getPasswordForUserType(String name) {
         UserData userData = getUserData(name);
         return (userData != null) ? userData.getPassword() : null;

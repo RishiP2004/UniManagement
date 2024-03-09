@@ -8,7 +8,10 @@ import com.rishi.unimanagement.data.UserData;
 
 public class ChangePassOption extends javax.swing.JPanel {
     private final UserData data;
-
+    /**
+     * Creates new form ChangePassOptions
+     * @param data
+     */
     public ChangePassOption(UserData data) {
         this.data = data;
         initComponents();
@@ -23,87 +26,80 @@ public class ChangePassOption extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        oldPassField = new javax.swing.JTextField();
-        newPassField = new javax.swing.JTextField();
-        confirmNewPassField = new javax.swing.JTextField();
-        submitButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-
-        oldPassField.setText("old pass");
-        oldPassField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                oldPassFieldActionPerformed(evt);
-            }
-        });
-
-        newPassField.setText("new pass");
-        newPassField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newPassFieldActionPerformed(evt);
-            }
-        });
-
-        confirmNewPassField.setText("re-type new pass");
-
-        submitButton.setText("SUBMIT");
+        submitButton = new javax.swing.JButton();
+        oldPassField = new javax.swing.JTextField();
+        newPassField = new javax.swing.JTextField();
+        confirmNewPassField = new javax.swing.JTextField();
 
         jLabel1.setText("Old Password:");
 
-        jLabel2.setText("New password:");
+        jLabel2.setText("New Password:");
 
-        jLabel3.setText("Confirm new password:");
+        jLabel3.setText("Confirm New Password:");
+
+        submitButton.setText("SUBMIT");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(confirmNewPassField)
-                    .addComponent(oldPassField)
-                    .addComponent(newPassField))
-                .addGap(157, 157, 157))
             .addGroup(layout.createSequentialGroup()
-                .addGap(169, 169, 169)
-                .addComponent(submitButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(confirmNewPassField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(newPassField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(oldPassField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(submitButton)))
+                .addGap(60, 60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(oldPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(29, 29, 29)
+                    .addComponent(jLabel1)
+                    .addComponent(oldPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(30, 30, 30)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmNewPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(submitButton)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void newPassFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPassFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_newPassFieldActionPerformed
-
-    private void oldPassFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oldPassFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_oldPassFieldActionPerformed
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        if(!newPassField.getText().equals(confirmNewPassField.getText())) return;
+        if(oldPassField.getText() == null ? data.getPassword() != null : !oldPassField.getText().equals(data.getPassword())) {
+            return;
+        }
+        if (newPassField.getText().matches("^(?=.*[A-Z])(?=.*[0-9])(?=.{8,})")){
+            return; //weak pass
+        }
+        data.setPassword(newPassField.getText());
+    }//GEN-LAST:event_submitButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

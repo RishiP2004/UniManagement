@@ -11,9 +11,13 @@ public class ProfessorPanel extends javax.swing.JPanel {
     public ProfessorData prof;
     private CardLayout cardLayout;
     private JPanel cardPanel;
-    
+    /**
+     * Creates new form ProfessorPanel
+     */
     public ProfessorPanel(CardLayout cardLayout, JPanel cardPanel, String name) {
         prof = (ProfessorData) Database.getUserData(name);
+        this.cardLayout = cardLayout;
+        this.cardPanel = cardPanel;
     }
 
     /**
@@ -83,7 +87,7 @@ public class ProfessorPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_taButtonActionPerformed
 
     private void studentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentButtonActionPerformed
-        StudentManagementOption panel = new StudentManagementOption(prof);
+        StudentManagementOption panel = new StudentManagementOption(cardLayout, cardPanel);
 
         cardPanel.add(panel, "studentManage");
         cardLayout.show(cardPanel, "studentManage");

@@ -16,80 +16,57 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="confirmNewPassField" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="newPassField" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="oldPassField" min="-2" pref="120" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
+                      <Component id="submitButton" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="confirmNewPassField" max="32767" attributes="0"/>
-                  <Component id="oldPassField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="newPassField" alignment="0" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="157" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
-              <Component id="submitButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="115" pref="60" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="oldPassField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="oldPassField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="newPassField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="confirmNewPassField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
               <Component id="submitButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="49" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="oldPassField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="old pass"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="oldPassFieldActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="newPassField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="new pass"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newPassFieldActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="confirmNewPassField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="re-type new pass"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="submitButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="SUBMIT"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Old Password:"/>
@@ -97,13 +74,27 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="New password:"/>
+        <Property name="text" type="java.lang.String" value="New Password:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Confirm new password:"/>
+        <Property name="text" type="java.lang.String" value="Confirm New Password:"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="submitButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="SUBMIT"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="oldPassField">
+    </Component>
+    <Component class="javax.swing.JTextField" name="newPassField">
+    </Component>
+    <Component class="javax.swing.JTextField" name="confirmNewPassField">
     </Component>
   </SubComponents>
 </Form>
