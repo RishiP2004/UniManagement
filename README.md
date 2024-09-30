@@ -27,11 +27,17 @@ bash
 Copy code
 git clone https://github.com/RishiP2004/UniManagement.git
 cd markbook-clone
+
 Set Up MongoDB:
 
 Install MongoDB locally or connect to a cloud-hosted MongoDB service
 Create a database named UniManagement with collections for users, tas, and professors.
-Run the Application:
+
+Set up JFreeChart:
+
+Install JFreeChart library
+
+#Run the Application:
 
 Open the project in IntelliJ or your preferred IDE.
 Build the project and run the main class to start the application.
