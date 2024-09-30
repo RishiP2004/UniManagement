@@ -1,7 +1,7 @@
 ## Uni Management
 
 # Overview
-UniManagement is a user-friendly gradebook-like application, designed to allow multiple types of users (e.g., students, teachers, professors/admins) to securely log in and interact with the system through custom interfaces tailored to their roles. Data for the specific roles and related aspects is stored in MongoDB, while the interface is built using JSwing.
+UniManagement is a user-friendly gradebook-like application, designed to allow multiple types of roles (students, teachers, professors/admins) to securely log in and interact with the system through custom interfaces tailored to their roles. Data for the specific roles and related aspects is stored in MongoDB, while the interface is built using JSwing.
 
 # Features
 User Role-Based Login
