@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -28,47 +27,54 @@ public final class Database implements DatabaseKeys {
     }
 
     private void connect() {
-        try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
             database = mongoClient.getDatabase(DATABASE_NAME);
         } catch (Exception e) {
-            System.exit(0);
+            System.err.println("Connection to database failed: " + e.getMessage());
+            System.exit(1);
         }
     }
     
     private void read() {
-        try {
-            if (database != null) {
-                readUserData(STUDENT_COLLECTION_NAME, studentData, document -> {
-                    String name = document.getString("name");
-                    String password = document.getString("password");
-                    int section = document.getInteger("section");
-                    Map<String, Integer> grades = document.get("grades", Map.class);
-                    return new StudentData(name, password, section, grades);
-                });
-
-                readUserData(TA_COLLECTION_NAME, taData, document -> {
-                    String name = document.getString("name");
-                    String password = document.getString("password");
-                    int section = document.getInteger("section");
-                    return new TAData(name, password, section);
-                });
-
-                readUserData(PROFESSOR_COLLECTION_NAME, profData, document -> 
-                        new ProfessorData(document.getString("name"), document.getString("password")));
-            }
-        } catch (Exception e) {
+        if (database != null) {
+            readUserData(STUDENT_COLLECTION_NAME, studentData, this::createStudentData);
+            readUserData(TA_COLLECTION_NAME, taData, this::createTAData);
+            readUserData(PROFESSOR_COLLECTION_NAME, profData, this::createProfessorData);
+        } else {
+            System.err.println("Database is not initialized.");
         }
     }
 
-    private void readUserData(String collectionName, List<? extends UserData> userDataList, DocumentCreator creator) {
+    // Updated method to accept specific types
+    private <T extends UserData> void readUserData(String collectionName, List<T> userDataList, DocumentCreator<T> creator) {
         MongoCollection<Document> collection = database.getCollection(collectionName);
 
         for (Document document : collection.find()) {
-            UserData userData = creator.create(document);
+            T userData = creator.create(document);
             userDataList.add(userData);
         }
     }
     
+    private StudentData createStudentData(Document document) {
+        String name = document.getString("name");
+        String password = document.getString("password");
+        int section = document.getInteger("section");
+        Map<String, Integer> grades = document.get("grades", Map.class);
+        return new StudentData(name, password, section, grades);
+    }
+
+    private TAData createTAData(Document document) {
+        String name = document.getString("name");
+        String password = document.getString("password");
+        int section = document.getInteger("section");
+        return new TAData(name, password, section);
+    }
+
+    private ProfessorData createProfessorData(Document document) {
+        return new ProfessorData(document.getString("name"), document.getString("password"));
+    }
+
     public static List<TAData> getAllTAs() {
         return taData;
     }
@@ -94,13 +100,19 @@ public final class Database implements DatabaseKeys {
                 .collect(Collectors.toList());
     }
     
+    public static List<Integer> getAllGrades() {
+        return studentData.stream()
+                .flatMap(student -> student.getGrades().values().stream())
+                .collect(Collectors.toList());
+    }
+
     public static String getPasswordForUserType(String name) {
         UserData userData = getUserData(name);
         return (userData != null) ? userData.getPassword() : null;
     }
 
     @FunctionalInterface
-    private interface DocumentCreator {
-        UserData create(Document document);
+    private interface DocumentCreator<T extends UserData> {
+        T create(Document document);
     }
 }

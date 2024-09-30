@@ -6,6 +6,7 @@ import com.rishi.unimanagement.data.Database;
 import com.rishi.unimanagement.data.ProfessorData;
 import com.rishi.unimanagement.visual.option.StudentManagementOption;
 import com.rishi.unimanagement.visual.option.TAManagementOption;
+import com.rishi.unimanagement.visual.option.AnalyticsChart;
 
 public class ProfessorPanel extends javax.swing.JPanel {
     public ProfessorData prof;
@@ -35,6 +36,7 @@ public class ProfessorPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         taButton = new javax.swing.JButton();
         studentButton = new javax.swing.JButton();
+        analyticsButton = new javax.swing.JButton();
 
         String name = prof.getName();
         jLabel1.setText(String.format("Logged in as %d", name));
@@ -53,6 +55,13 @@ public class ProfessorPanel extends javax.swing.JPanel {
             }
         });
 
+        analyticsButton.setText("Analytics");
+        analyticsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analyticsButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -66,7 +75,8 @@ public class ProfessorPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(taButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(studentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(studentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(analyticsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(128, 128, 128))))
         );
         layout.setVerticalGroup(
@@ -74,11 +84,13 @@ public class ProfessorPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(35, 35, 35)
+                .addGap(23, 23, 23)
                 .addComponent(studentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(taButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(analyticsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -96,8 +108,16 @@ public class ProfessorPanel extends javax.swing.JPanel {
         cardLayout.show(cardPanel, "studentManage");
     }//GEN-LAST:event_studentButtonActionPerformed
 
+    private void analyticsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyticsButtonActionPerformed
+        AnalyticsChart panel = new AnalyticsChart(Database.getAllGrades());
+
+        cardPanel.add(panel, "analyticsChart");
+        cardLayout.show(cardPanel, "analyticsChart");
+    }//GEN-LAST:event_analyticsButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton analyticsButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton studentButton;
     private javax.swing.JButton taButton;
