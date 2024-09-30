@@ -1,26 +1,26 @@
-Uni Management
+## Uni Management
 
-Overview
+# Overview
 UniManagement is a user-friendly gradebook-like application, designed to allow multiple types of users (e.g., students, teachers, professors/admins) to securely log in and interact with the system through custom interfaces tailored to their roles. Data for the specific roles and related aspects is stored in MongoDB, while the interface is built using JSwing.
 
-Features
+# Features
 User Role-Based Login
 Secure login system with MongoDB for data storage
 Role-based access to ensure users see only the information relevant to them
 Authentication and authorization to enhance security
 
-Interactive User Dashboards
+# Interactive User Dashboards
 Students: View grades, view CGPA, edit password.
 TA: Manage student grades based on their section.
 Admins: Manage student grades, TAs overall data, and check analytics data
 
-Tech Stack
+# Tech Stack
 Java Swing: For a responsive and clean graphical user interface
 MongoDB: As the NoSQL database for data management
 JSwing Forms: Custom forms designed for each user type
 Java: Core application logic and business rules implementation
 
-Installation
+# Installation
 Clone the Repository:
 
 bash
@@ -35,7 +35,8 @@ Run the Application:
 
 Open the project in IntelliJ or your preferred IDE.
 Build the project and run the main class to start the application.
-Usage
+
+# Usage
 Logging In:
 Students, Teachers, and Admins can log in with their credentials, which are stored securely in the database.
 Dashboards:
