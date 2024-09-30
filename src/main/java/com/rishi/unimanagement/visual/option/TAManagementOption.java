@@ -36,9 +36,9 @@ public class TAManagementOption extends javax.swing.JPanel {
 
         jLabel1.setText("Please select TA:");
 
-        List<String> studentNames = Database.getStudentsBySection(Integer.valueOf(jList1.getSelectedValue()));
+        List<String> tas = Database.getAllTAMapped();
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = studentNames.toArray(new String[0]);
+            String[] strings = tas.toArray(new String[0]);
 
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }

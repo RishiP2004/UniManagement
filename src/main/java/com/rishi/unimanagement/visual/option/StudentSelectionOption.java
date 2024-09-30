@@ -4,19 +4,28 @@
  */
 package com.rishi.unimanagement.visual.option;
 
-import com.rishi.unimanagement.data.Database;
-import com.rishi.unimanagement.data.TAData;
+import java.awt.CardLayout;
 import java.util.List;
-
+import javax.swing.JPanel;
+import com.rishi.unimanagement.data.Database;
+import com.rishi.unimanagement.data.StudentData;
+/**
+ *
+ * @author Paresh
+ */
 public class StudentSelectionOption extends javax.swing.JPanel {
-    private final TAData ta;
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
+    int section;
     /**
-     * Creates new form StudentSelectionOption
-     * @param ta
+     * Creates new form StudentManagementOption
+     * @param cardLayout
+     * @param cardPanel
+     * @param section
      */
-    public StudentSelectionOption(TAData ta) {
-        this.ta = ta;
+    public StudentSelectionOption(CardLayout cardLayout, JPanel cardPanel, int section) {
         initComponents();
+        this.section = section;
     }
 
     /**
@@ -28,30 +37,26 @@ public class StudentSelectionOption extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        submitButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
+        jButton1 = new javax.swing.JButton();
 
-        jLabel1.setText("Student Selection");
+        jLabel2.setText("Please select student");
 
-        int section = ta.getSection();
-        jLabel2.setText(String.format("Select student from section %d", section));
+        List<String> studentNames = Database.getStudentsBySection(section);
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = studentNames.toArray(new String[0]);
 
-        List<String> studentNamesList = Database.getStudentsBySection(section);
-        String[] studentNames = studentNamesList.toArray(new String[0]);
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = studentNames;
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane2.setViewportView(jList2);
 
-        submitButton.setText("SUBMIT");
-        submitButton.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("ENTER");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitButtonActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -61,45 +66,41 @@ public class StudentSelectionOption extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(155, 155, 155)
-                        .addComponent(submitButton)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(submitButton)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(21, 21, 21))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        
-    }//GEN-LAST:event_submitButtonActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FinalGradesEdit panel = new FinalGradesEdit((StudentData) Database.getUserData(jList2.getSelectedValue()));
+
+        cardPanel.add(panel, "finalGradesEdit");
+        cardLayout.show(cardPanel, "finalGradesEdit");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton submitButton;
+    private javax.swing.JList<String> jList2;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

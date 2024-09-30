@@ -17,6 +17,9 @@ public class TAPanel extends javax.swing.JPanel {
     private JPanel cardPanel;
     /**
      * Creates new form TAPanel
+     * @param cardLayout
+     * @param cardPanel
+     * @param name
      */
     public TAPanel(CardLayout cardLayout, JPanel cardPanel, String name) {
         ta = (TAData) Database.getUserData(name);
@@ -93,10 +96,11 @@ public class TAPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editGradesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editGradesButtonActionPerformed
-        StudentSelectionOption panel = new StudentSelectionOption(ta);
+        int section = ta.getSection();
+        StudentSelectionOption panel = new StudentSelectionOption(cardLayout, cardPanel, section);
 
-        cardPanel.add(panel, "gradesEdit");
-        cardLayout.show(cardPanel, "gradesEdit");
+        cardPanel.add(panel, "studentSelect");
+        cardLayout.show(cardPanel, "studentSelect");
     }//GEN-LAST:event_editGradesButtonActionPerformed
 
     private void changePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordButtonActionPerformed

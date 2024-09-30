@@ -14,13 +14,11 @@ public class TAData extends UserData{
         return section;
     }
     
-    public boolean setSection(int newSection) {
+    public void setSection(int newSection) {
         try {
             section = newSection;
             updateSectionInDatabase(newSection);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (Exception ignored) {
         }
     }
     
@@ -32,7 +30,7 @@ public class TAData extends UserData{
                 Document update = new Document("$set", new Document("section", newSection));
                 collection.updateOne(filter, update);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 

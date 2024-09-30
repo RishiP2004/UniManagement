@@ -7,6 +7,7 @@ import com.mongodb.client.MongoCollection;
 public class StudentData extends UserData {
     private int section;
     private final Map<String, Integer> grades;
+
     public StudentData(String name, String password, int section, Map<String, Integer> grades) {
         super(name, password);
         this.section = section;
@@ -22,13 +23,11 @@ public class StudentData extends UserData {
         return section;
     }
     
-    public boolean setSection(int newSection) {
+    public void setSection(int newSection) {
         try {
             section = newSection;
             updateSectionInDatabase(newSection);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (Exception ignored) {
         }
     }
     
@@ -40,7 +39,7 @@ public class StudentData extends UserData {
                 Document update = new Document("$set", new Document("section", newSection));
                 collection.updateOne(filter, update);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -61,16 +60,13 @@ public class StudentData extends UserData {
         return formattedGrades.toString();
     }
     
-    public boolean setGrade(String subject, int newGrade) {
+    public void setGrade(String subject, int newGrade) {
         try {
             if (grades.containsKey(subject)) {
                 grades.put(subject, newGrade);
                 updateGradeInDatabase(subject, newGrade);
-                return true;
             }
-            return false;
-        } catch (Exception e) {
-            return false;
+        } catch (Exception ignored) {
         }
     }
     
@@ -87,7 +83,7 @@ public class StudentData extends UserData {
 
                 collection.updateOne(filter, update);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
     

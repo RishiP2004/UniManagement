@@ -4,7 +4,6 @@
  */
 package com.rishi.unimanagement.visual.option;
 
-import com.rishi.unimanagement.data.ProfessorData;
 import java.awt.CardLayout;
 import java.util.List;
 import javax.swing.JPanel;
@@ -19,6 +18,8 @@ public class StudentManagementOption extends javax.swing.JPanel {
     private JPanel cardPanel;
     /**
      * Creates new form StudentManagementOption
+     * @param cardLayout
+     * @param cardPanel
      */
     public StudentManagementOption(CardLayout cardLayout, JPanel cardPanel) {
         initComponents();

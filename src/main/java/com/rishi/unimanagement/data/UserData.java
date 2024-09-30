@@ -26,13 +26,11 @@ public abstract class UserData {
         return password;
     }
     
-    public boolean setPassword(String newPass) {
+    public void setPassword(String newPass) {
         try {
             password = newPass;
             updatePasswordInDatabase(newPass);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (Exception ignored) {
         }
     }
     
@@ -56,8 +54,7 @@ public abstract class UserData {
                 Document update = new Document("$set", new Document("password", newPass));
                 collection.updateOne(filter, update);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 }

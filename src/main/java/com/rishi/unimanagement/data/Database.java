@@ -72,6 +72,12 @@ public final class Database implements DatabaseKeys {
     public static List<TAData> getAllTAs() {
         return taData;
     }
+    
+    public static List<String> getAllTAMapped() {
+        return taData.stream()
+                .map(UserData::getName)
+                .collect(Collectors.toList());
+    }
 
     public static UserData getUserData(String name) {
         return Stream.of(studentData, taData, profData)

@@ -110,8 +110,8 @@ public class StudentPanel extends JPanel {
     private void changePassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePassButtonActionPerformed
         ChangePassOption panel = new ChangePassOption(student);
 
-        cardPanel.add(panel, "grades");
-        cardLayout.show(cardPanel, "grades");
+        cardPanel.add(panel, "changepass");
+        cardLayout.show(cardPanel, "changepass");
     }//GEN-LAST:event_changePassButtonActionPerformed
 
     private void gradesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradesButtonActionPerformed
