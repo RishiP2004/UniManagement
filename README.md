@@ -25,7 +25,7 @@ Clone the Repository:
 
 bash
 Copy code
-git clone https://github.com/your-username/markbook-clone.git
+git clone https://github.com/RishiP2004/UniManagement.git
 cd markbook-clone
 Set Up MongoDB:
 
