@@ -95,4 +95,12 @@ public class StudentData extends UserData {
         }
         return total / (double) grades.size();
     }
+    
+    @Override
+    public Document toDocument() {
+        return new Document("name", getName())
+                .append("password", getPassword())
+                .append("section", getSection())
+                .append("grades", getGrades());
+    }
 }

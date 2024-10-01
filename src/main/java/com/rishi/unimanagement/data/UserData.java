@@ -57,4 +57,29 @@ public abstract class UserData {
         } catch (Exception ignored) {
         }
     }
+    
+    public void delete() {
+        try {
+            if (Database.get() != null) {
+                String collectionName = "";
+                switch(getType()) {
+                    case 0 -> {
+                        collectionName = Database.STUDENT_COLLECTION_NAME;
+                    }
+                    case 1 -> {
+                        collectionName = Database.TA_COLLECTION_NAME;
+                    }
+                    case 2 -> {
+                        collectionName = Database.PROFESSOR_COLLECTION_NAME;
+                    }
+                }
+                MongoCollection<Document> collection = Database.get().getCollection(collectionName);
+                Document doc = new Document("name", getName());
+                collection.deleteOne(doc);
+            }
+        } catch (Exception ignored) {
+        }
+    }
+    
+    public abstract Document toDocument();
 }

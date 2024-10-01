@@ -38,4 +38,11 @@ public class TAData extends UserData{
     public int getType() {
         return TA;
     }
+
+    @Override
+    public Document toDocument() {
+        return new Document("name", getName())
+                .append("password", getPassword())
+                .append("section", getSection());
+    }
 }

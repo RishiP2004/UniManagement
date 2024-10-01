@@ -21,6 +21,10 @@ public final class Database implements DatabaseKeys {
         connect();
         read();
     }
+    // For JUnit testing purposes
+    public void set(MongoDatabase mockDatabase) {
+        database = mockDatabase;
+    }
     
     public static MongoDatabase get() {
         return database;
@@ -36,7 +40,7 @@ public final class Database implements DatabaseKeys {
         }
     }
     
-    private void read() {
+    public void read() {
         if (database != null) {
             readUserData(STUDENT_COLLECTION_NAME, studentData, this::createStudentData);
             readUserData(TA_COLLECTION_NAME, taData, this::createTAData);
@@ -46,7 +50,6 @@ public final class Database implements DatabaseKeys {
         }
     }
 
-    // Updated method to accept specific types
     private <T extends UserData> void readUserData(String collectionName, List<T> userDataList, DocumentCreator<T> creator) {
         MongoCollection<Document> collection = database.getCollection(collectionName);
 
@@ -56,23 +59,73 @@ public final class Database implements DatabaseKeys {
         }
     }
     
-    private StudentData createStudentData(Document document) {
+    public void regStudent(String name, String password, int section, Map<String, Integer> grades) {
+        MongoCollection<Document> collection = database.getCollection(STUDENT_COLLECTION_NAME);
+        
+        Document doc = new Document("name", name)
+                .append("password", password)
+                .append("section", section)
+                .append("grades", grades);
+        
+        collection.insertOne(doc);
+        
+        studentData.add(new StudentData(name, password, section, grades));
+    }
+    
+    public StudentData createStudentData(Document document) {
         String name = document.getString("name");
         String password = document.getString("password");
         int section = document.getInteger("section");
         Map<String, Integer> grades = document.get("grades", Map.class);
         return new StudentData(name, password, section, grades);
     }
+    
+    public void regTA(String name, String password, int section) {
+        MongoCollection<Document> collection = database.getCollection(TA_COLLECTION_NAME);
+        
+        Document doc = new Document("name", name)
+                .append("password", password)
+                .append("section", section);
+        
+        collection.insertOne(doc);
+        
+        taData.add(new TAData(name, password, section));
+    }
 
-    private TAData createTAData(Document document) {
+    public TAData createTAData(Document document) {
         String name = document.getString("name");
         String password = document.getString("password");
         int section = document.getInteger("section");
         return new TAData(name, password, section);
     }
 
-    private ProfessorData createProfessorData(Document document) {
+    
+    public void regProf(String name, String password, int section) {
+        MongoCollection<Document> collection = database.getCollection(TA_COLLECTION_NAME);
+        
+        Document doc = new Document("name", name)
+                .append("password", password);
+        
+        collection.insertOne(doc);
+        
+        profData.add(new ProfessorData(name, password));
+    }
+    
+    public ProfessorData createProfessorData(Document document) {
         return new ProfessorData(document.getString("name"), document.getString("password"));
+    }
+    
+    public static UserData getUserData(String name) {
+        return Stream.of(studentData, taData, profData)
+                .flatMap(List::stream)
+                .filter(data -> data.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static String getPasswordForUserType(String name) {
+        UserData userData = getUserData(name);
+        return (userData != null) ? userData.getPassword() : null;
     }
 
     public static List<TAData> getAllTAs() {
@@ -84,13 +137,9 @@ public final class Database implements DatabaseKeys {
                 .map(UserData::getName)
                 .collect(Collectors.toList());
     }
-
-    public static UserData getUserData(String name) {
-        return Stream.of(studentData, taData, profData)
-                .flatMap(List::stream)
-                .filter(data -> data.getName().equals(name))
-                .findFirst()
-                .orElse(null);
+    
+    public static List<StudentData> getAllStudents() {
+        return studentData;
     }
     
     public static List<String> getStudentsBySection(int section) {
@@ -105,10 +154,9 @@ public final class Database implements DatabaseKeys {
                 .flatMap(student -> student.getGrades().values().stream())
                 .collect(Collectors.toList());
     }
-
-    public static String getPasswordForUserType(String name) {
-        UserData userData = getUserData(name);
-        return (userData != null) ? userData.getPassword() : null;
+    
+    public static List<ProfessorData> getAllProfessors() {
+        return profData;
     }
 
     @FunctionalInterface
