@@ -1,6 +1,7 @@
 package com.rishi.unimanagement.service;
 
 import com.rishi.unimanagement.data.TAData;
+import com.rishi.unimanagement.repo.ProfessorRepository;
 import com.rishi.unimanagement.repo.TARepository;
 
 import java.util.List;
@@ -8,10 +9,14 @@ import java.util.stream.Collectors;
 
 public class TAService implements Service {
     private static TAService instance;
-    private final TARepository taRepository;
+    private TARepository taRepository;
 
     private TAService() {
         taRepository = TARepository.getInstance();
+    }
+
+    public void setTaRepository(TARepository taRepository) {
+        this.taRepository = taRepository;
     }
 
     public static TAService getInstance() {

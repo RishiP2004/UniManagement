@@ -1,1 +1,8 @@
-C:\Users\user\Documents\Idea\UniManagement\src\test\java\com\rishi\unimanagement\DBCRUDTest.java
+C:\Users\user\Documents\Idea\UniManagement\src\test\java\com\rishi\unimanagement\connection\DatabaseConnectionTest.java
+C:\Users\user\Documents\Idea\UniManagement\src\test\java\com\rishi\unimanagement\factory\UserDataFactoryTest.java
+C:\Users\user\Documents\Idea\UniManagement\src\test\java\com\rishi\unimanagement\repo\ProfessorRepositoryTest.java
+C:\Users\user\Documents\Idea\UniManagement\src\test\java\com\rishi\unimanagement\repo\StudentRepositoryTest.java
+C:\Users\user\Documents\Idea\UniManagement\src\test\java\com\rishi\unimanagement\repo\TARepositoryTest.java
+C:\Users\user\Documents\Idea\UniManagement\src\test\java\com\rishi\unimanagement\service\ProfessorServiceTest.java
+C:\Users\user\Documents\Idea\UniManagement\src\test\java\com\rishi\unimanagement\service\StudentServiceTest.java
+C:\Users\user\Documents\Idea\UniManagement\src\test\java\com\rishi\unimanagement\service\TAServiceTest.java

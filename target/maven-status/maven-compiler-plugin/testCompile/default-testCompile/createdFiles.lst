@@ -1,1 +1,3 @@
-com\rishi\unimanagement\DBCRUDTest.class
+com\rishi\unimanagement\connection\DatabaseConnectionTest.class
+com\rishi\unimanagement\repo\ProfessorRepositoryTest.class
+com\rishi\unimanagement\factory\UserDataFactoryTest.class

@@ -10,11 +10,15 @@ import java.util.Map;
 
 public class StudentRepository implements UserRepository<StudentData> {
 
-    private final MongoCollection<Document> studentCollection;
+    private MongoCollection<Document> studentCollection;
     private static StudentRepository instance;
 
     private StudentRepository() {
         this.studentCollection = DatabaseConnectionManager.getConnection().getCollection("students");
+    }
+
+    public void setCollection(MongoCollection<Document> collection) {
+        studentCollection = collection;
     }
 
     public static StudentRepository getInstance() {

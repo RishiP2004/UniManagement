@@ -10,11 +10,15 @@ import java.util.List;
 
 public class ProfessorRepository implements UserRepository<ProfessorData> {
 
-    private final MongoCollection<Document> professorCollection;
+    private MongoCollection<Document> professorCollection;
     private static ProfessorRepository instance;
 
     private ProfessorRepository() {
-        this.professorCollection = DatabaseConnectionManager.getConnection().getCollection("professor");
+        this.professorCollection = DatabaseConnectionManager.getConnection().getCollection("professors");
+    }
+
+    public void setCollection(MongoCollection<Document> collection) {
+        professorCollection = collection;
     }
 
     public static ProfessorRepository getInstance() {

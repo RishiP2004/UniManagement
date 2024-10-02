@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class StudentService implements Service {
-
     private static StudentService instance;
-    private final StudentRepository studentRepository;
+    private StudentRepository studentRepository;
 
     private StudentService() {
         studentRepository = StudentRepository.getInstance();
+    }
+
+    public void setStudentRepository(StudentRepository professorRepository) {
+        this.studentRepository = professorRepository;
     }
 
     public static StudentService getInstance() {

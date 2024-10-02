@@ -1,66 +1,103 @@
 package com.rishi.unimanagement.repo;
 
-import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import com.rishi.unimanagement.data.TAData;
 import org.bson.Document;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.containers.MongoDBContainer;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-class TARepositoryTest {
+public class TARepositoryTest {
+
+    private static MongoDBContainer mongoDBContainer;
+    private MongoClient mongoClient;
+    private MongoDatabase database;
     private TARepository taRepository;
-    private MongoCollection<Document> mockCollection;
 
     @BeforeEach
     void setUp() {
-        MongoDatabase mockDatabase = mock(MongoDatabase.class);
-        mockCollection = mock(MongoCollection.class);
-        when(mockDatabase.getCollection("tas")).thenReturn(mockCollection);
+        mongoDBContainer = new MongoDBContainer("mongo:latest");
+        mongoDBContainer.start();
+
+        mongoClient = MongoClients.create(mongoDBContainer.getConnectionString());
+        database = mongoClient.getDatabase("test");
+
         taRepository = TARepository.getInstance();
+        taRepository.setCollection(database.getCollection("ta"));
+    }
+
+    @AfterEach
+    void tearDown() {
+        database.getCollection("ta").drop();
+        mongoClient.close();
+        mongoDBContainer.stop();
     }
 
     @Test
-    void addTA() {
-        TAData ta = new TAData("Jane", "password", 101);
+    void testAddTA() {
+        TAData ta = new TAData("Alice", "password123", 101);
+
         taRepository.addUser(ta);
-        verify(mockCollection).insertOne(any(Document.class));
+
+        Document foundTA = database.getCollection("ta").find(new Document("name", "Alice")).first();
+        assertNotNull(foundTA);
+        assertEquals("Alice", foundTA.getString("name"));
+        assertEquals("password123", foundTA.getString("password"));
+        assertEquals(101, foundTA.getInteger("section"));
     }
 
     @Test
-    void getTAByName() {
-        Document doc = new Document("name", "Jane").append("password", "password").append("section", 101);
-        when(mockCollection.find(any(Document.class))).thenReturn((FindIterable<Document>) List.of(doc));
+    void testGetTAByName() {
+        Document taDoc = new Document("name", "Bob")
+                .append("password", "secret456")
+                .append("section", 102);
+        database.getCollection("ta").insertOne(taDoc);
 
-        TAData ta = taRepository.getUserByName("Jane");
-        assertNotNull(ta);
-        assertEquals("Jane", ta.getName());
-        verify(mockCollection).find(any(Document.class));
+        TAData retrievedTA = taRepository.getUserByName("Bob");
+
+        assertNotNull(retrievedTA);
+        assertEquals("Bob", retrievedTA.getName());
+        assertEquals("secret456", retrievedTA.getPassword());
+        assertEquals(102, retrievedTA.getSection());
     }
 
     @Test
-    void updateTA() {
-        TAData ta = new TAData("Jane", "password", 101);
+    void testGetAllTAs() {
+        taRepository.addUser(new TAData("John", "password123", 101));
+        taRepository.addUser(new TAData("Jane", "password456", 102));
+
+        List<TAData> allTAs = taRepository.getAllUsers();
+        assertEquals(2, allTAs.size());
+    }
+
+    @Test
+    void testUpdateTA() {
+        TAData ta = new TAData("John", "password123", 101);
+        taRepository.addUser(ta);
+
+        ta.updatePassword("testpass");
         taRepository.updateUser(ta);
-        verify(mockCollection).updateOne(any(Document.class), any(Document.class));
+
+        TAData updatedTA = taRepository.getUserByName("John");
+        assertNotNull(updatedTA);
+        assertEquals("testpass", updatedTA.getPassword());
     }
 
     @Test
-    void deleteTA() {
-        taRepository.deleteUser("Jane");
-        verify(mockCollection).deleteOne(any(Document.class));
-    }
+    void testDeleteTA() {
+        TAData ta = new TAData("John", "password123", 101);
+        taRepository.addUser(ta);
 
-    @Test
-    void getAllTAs() {
-        Document doc = new Document("name", "Jane").append("password", "password").append("section", 101);
-        when(mockCollection.find()).thenReturn((FindIterable<Document>) List.of(doc));
+        taRepository.deleteUser("John");
 
-        assertEquals(1, taRepository.getAllUsers().size());
+        TAData deletedTA = taRepository.getUserByName("John");
+        assertNull(deletedTA);
     }
 }

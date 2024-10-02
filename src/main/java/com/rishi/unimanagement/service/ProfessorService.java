@@ -8,10 +8,14 @@ import java.util.List;
 public class ProfessorService implements Service {
 
     private static ProfessorService instance;
-    private final ProfessorRepository professorRepository;
+    private ProfessorRepository professorRepository;
 
     private ProfessorService() {
         professorRepository = ProfessorRepository.getInstance();
+    }
+
+    public void setProfessorRepository(ProfessorRepository professorRepository) {
+        this.professorRepository = professorRepository;
     }
 
     public static ProfessorService getInstance() {
@@ -20,6 +24,7 @@ public class ProfessorService implements Service {
         }
         return instance;
     }
+
     public void addProfessor(ProfessorData professor) {
         professorRepository.addUser(professor);
     }

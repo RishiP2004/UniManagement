@@ -7,20 +7,20 @@ import java.util.Map;
 public class UserDataFactory {
     public static User createUser(Document document, String type) {
         switch (type) {
-            case User.STUDENT:  // Assuming 1 stands for Student
+            case User.STUDENT:
                 return new StudentData(
                         document.getString("name"),
                         document.getString("password"),
                         document.getInteger("section"),
                         document.get("grades", Map.class)
                 );
-            case User.TA:  // Assuming 2 stands for TA
+            case User.TA:
                 return new TAData(
                         document.getString("name"),
                         document.getString("password"),
                         document.getInteger("section")
                 );
-            case User.PROFESSOR:  // Assuming 3 stands for Professor
+            case User.PROFESSOR:
                 return new ProfessorData(
                         document.getString("name"),
                         document.getString("password")

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TARepository implements UserRepository<TAData> {
 
-    private final MongoCollection<Document> taCollection;
+    private MongoCollection<Document> taCollection;
     private static TARepository instance;
 
     private TARepository() {
@@ -23,6 +23,11 @@ public class TARepository implements UserRepository<TAData> {
         }
         return instance;
     }
+
+    public void setCollection(MongoCollection<Document> collection) {
+        taCollection = collection;
+    }
+
     @Override
     public void addUser(TAData ta) {
         taCollection.insertOne(ta.toDocument());

@@ -1,76 +1,134 @@
 package com.rishi.unimanagement.repo;
 
-import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import com.rishi.unimanagement.data.StudentData;
 import org.bson.Document;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.containers.MongoDBContainer;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static com.mongodb.assertions.Assertions.assertNull;
+import static com.mongodb.internal.connection.tlschannel.util.Util.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class StudentRepositoryTest {
+public class StudentRepositoryTest {
 
+    private static MongoDBContainer mongoDBContainer;
+    private MongoClient mongoClient;
+    private MongoDatabase database;
     private StudentRepository studentRepository;
-    private MongoCollection<Document> mockCollection;
 
     @BeforeEach
     void setUp() {
-        MongoDatabase mockDatabase = mock(MongoDatabase.class);
-        mockCollection = mock(MongoCollection.class);
-        when(mockDatabase.getCollection("students")).thenReturn(mockCollection);
-        studentRepository =  StudentRepository.getInstance();
+        mongoDBContainer = new MongoDBContainer("mongo:latest");
+        mongoDBContainer.start();
+
+        mongoClient = MongoClients.create(mongoDBContainer.getConnectionString());
+        database = mongoClient.getDatabase("test");
+
+        studentRepository = StudentRepository.getInstance();
+        studentRepository.setCollection(database.getCollection("students"));
+    }
+
+    @AfterEach
+    void tearDown() {
+        database.getCollection("students").drop();
+        mongoClient.close();
+        mongoDBContainer.stop();
     }
 
     @Test
-    void addStudent() {
+    void testAddStudent() {
         Map<String, Integer> grades = new HashMap<>();
         grades.put("Math", 90);
-        StudentData student = new StudentData("John", "1234", 101, grades);
+        StudentData student = new StudentData("Alice", "password123", 101, grades);
+
         studentRepository.addUser(student);
-        verify(mockCollection).insertOne(any(Document.class));
+
+        Document foundStudent = database.getCollection("students").find(new Document("name", "Alice")).first();
+        assertNotNull(foundStudent);
+        assertEquals("Alice", foundStudent.getString("name"));
+        assertEquals("password123", foundStudent.getString("password"));
+        assertEquals(101, foundStudent.getInteger("section"));
+        assertEquals(90, ((Map<String, Integer>) foundStudent.get("grades")).get("Math"));
     }
 
     @Test
-    void getStudentByName() {
+    void testGetStudentByName() {
         Map<String, Integer> grades = new HashMap<>();
-        grades.put("Math", 90);
-        Document doc = new Document("name", "John").append("password", "1234").append("section", 101).append("grades", grades);
-        when(mockCollection.find(any(Document.class))).thenReturn((FindIterable<Document>) List.of(doc));
+        grades.put("Science", 85);
+        Document studentDoc = new Document("name", "Bob")
+                .append("password", "secret456")
+                .append("section", 102)
+                .append("grades", grades);
+        database.getCollection("students").insertOne(studentDoc);
 
-        StudentData student = studentRepository.getUserByName("John");
-        assertNotNull(student);
-        assertEquals("John", student.getName());
-        verify(mockCollection).find(any(Document.class));
+        StudentData retrievedStudent = studentRepository.getUserByName("Bob");
+
+        assertNotNull(retrievedStudent);
+        assertEquals("Bob", retrievedStudent.getName());
+        assertEquals("secret456", retrievedStudent.getPassword());
+        assertEquals(102, retrievedStudent.getSection());
+        assertEquals(85, retrievedStudent.getGrade("Science"));
     }
 
     @Test
-    void updateStudent() {
+    void testGetAllStudents() {
         Map<String, Integer> grades = new HashMap<>();
         grades.put("Math", 90);
-        StudentData student = new StudentData("John", "1234", 101, grades);
+        studentRepository.addUser(new StudentData("John", "password123", 101, grades));
+        studentRepository.addUser(new StudentData("Jane", "password456", 102, grades));
+
+        List<StudentData> allStudents = studentRepository.getAllUsers();
+        assertEquals(2, allStudents.size());
+    }
+
+    @Test
+    void testUpdateStudent() {
+        Map<String, Integer> grades = new HashMap<>();
+        grades.put("Math", 90);
+        StudentData student = new StudentData("John", "password123", 101, grades);
+        studentRepository.addUser(student);
+
+        student.updatePassword("newpassword");
         studentRepository.updateUser(student);
-        verify(mockCollection).updateOne(any(Document.class), any(Document.class));
+
+        StudentData updatedStudent = studentRepository.getUserByName("John");
+        assertNotNull(updatedStudent);
+        assertEquals("newpassword", updatedStudent.getPassword());
     }
 
     @Test
-    void deleteStudent() {
-        studentRepository.deleteUser("John");
-        verify(mockCollection).deleteOne(any(Document.class));
-    }
-
-    @Test
-    void getAllStudents() {
+    void testDeleteStudent() {
         Map<String, Integer> grades = new HashMap<>();
         grades.put("Math", 90);
-        Document doc = new Document("name", "John").append("password", "1234").append("section", 101).append("grades", grades);
-        when(mockCollection.find()).thenReturn((FindIterable<Document>) List.of(doc));
+        StudentData student = new StudentData("John", "password123", 101, grades);
+        studentRepository.addUser(student);
 
-        assertEquals(1, studentRepository.getAllUsers().size());
+        studentRepository.deleteUser("John");
+
+        StudentData deletedStudent = studentRepository.getUserByName("John");
+        assertNull(deletedStudent);
+    }
+
+    @Test
+    void testGetAllGrades() {
+        Map<String, Integer> grades = new HashMap<>();
+        grades.put("Math", 90);
+        grades.put("Science", 80);
+        studentRepository.addUser(new StudentData("John", "password123", 101, grades));
+
+        List<Integer> allGrades = studentRepository.getAllGrades();
+        assertEquals(2, allGrades.size());
+        assertTrue(allGrades.contains(90));
+        assertTrue(allGrades.contains(80));
     }
 }
