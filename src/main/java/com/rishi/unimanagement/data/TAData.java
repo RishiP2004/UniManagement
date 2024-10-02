@@ -1,48 +1,47 @@
 package com.rishi.unimanagement.data;
 
 import org.bson.Document;
-import com.mongodb.client.MongoCollection;
 
-public class TAData extends UserData{
-    private int section;
-    
+public class TAData implements User {
+    private final String name;
+    private String password;
+    private final int section;
+
     public TAData(String name, String password, int section) {
-        super(name, password);
+        this.name = name;
+        this.password = password;
+        this.section = section;
     }
-    
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public void updatePassword(String newPassword) {
+
+        this.password = newPassword;
+    }
+
     public int getSection() {
         return section;
     }
     
-    public void setSection(int newSection) {
-        try {
-            section = newSection;
-            updateSectionInDatabase(newSection);
-        } catch (Exception ignored) {
-        }
-    }
-    
-    private void updateSectionInDatabase(int newSection) {
-        try {
-            if (Database.get() != null) {
-                MongoCollection<Document> collection = Database.get().getCollection(Database.TA_COLLECTION_NAME);
-                Document filter = new Document("name", getName());
-                Document update = new Document("$set", new Document("section", newSection));
-                collection.updateOne(filter, update);
-            }
-        } catch (Exception ignored) {
-        }
-    }
-
     @Override
-    public int getType() {
+    public String getType() {
         return TA;
     }
 
     @Override
     public Document toDocument() {
-        return new Document("name", getName())
-                .append("password", getPassword())
-                .append("section", getSection());
+        return new Document("name", name)
+                .append("password", password)
+                .append("section", section);
     }
 }

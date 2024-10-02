@@ -7,8 +7,8 @@ package com.rishi.unimanagement.visual.option;
 import java.awt.CardLayout;
 import java.util.List;
 import javax.swing.JPanel;
-import com.rishi.unimanagement.data.Database;
-import com.rishi.unimanagement.data.StudentData;
+import com.rishi.unimanagement.service.StudentService;
+
 /**
  *
  * @author Paresh
@@ -44,7 +44,7 @@ public class StudentSelectionOption extends javax.swing.JPanel {
 
         jLabel2.setText("Please select student");
 
-        List<String> studentNames = Database.getStudentsBySection(section);
+        List<String> studentNames = StudentService.getInstance().getStudentsBySection(section);
         jList2.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = studentNames.toArray(new String[0]);
 
@@ -90,7 +90,7 @@ public class StudentSelectionOption extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FinalGradesEdit panel = new FinalGradesEdit((StudentData) Database.getUserData(jList2.getSelectedValue()));
+        FinalGradesEdit panel = new FinalGradesEdit(StudentService.getInstance().getStudentByName(jList2.getSelectedValue()));
 
         cardPanel.add(panel, "finalGradesEdit");
         cardLayout.show(cardPanel, "finalGradesEdit");

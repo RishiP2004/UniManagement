@@ -2,49 +2,55 @@ package com.rishi.unimanagement.data;
 
 import java.util.Map;
 import org.bson.Document;
-import com.mongodb.client.MongoCollection;
 
-public class StudentData extends UserData {
+public class StudentData implements User {
+    private final String name;
+    private String password;
     private int section;
-    private final Map<String, Integer> grades;
+    private Map<String, Integer> grades;
 
     public StudentData(String name, String password, int section, Map<String, Integer> grades) {
-        super(name, password);
+        this.name = name;
+        this.password = password;
         this.section = section;
         this.grades = grades;
     }
-    
+
     @Override
-    public int getType() {
-        return STUDENT;
+    public String getName() {
+        return name;
     }
-    
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
+    }
+
     public int getSection() {
         return section;
     }
-    
-    public void setSection(int newSection) {
-        try {
-            section = newSection;
-            updateSectionInDatabase(newSection);
-        } catch (Exception ignored) {
-        }
-    }
-    
-    private void updateSectionInDatabase(int newSection) {
-        try {
-            if (Database.get() != null) {
-                MongoCollection<Document> collection = Database.get().getCollection(Database.STUDENT_COLLECTION_NAME);
-                Document filter = new Document("name", getName());
-                Document update = new Document("$set", new Document("section", newSection));
-                collection.updateOne(filter, update);
-            }
-        } catch (Exception ignored) {
-        }
+
+    public void setSection(int section) {
+        this.section = section;
     }
 
     public Map<String, Integer> getGrades() {
         return grades;
+    }
+
+    public void setGrades(Map<String, Integer> grades) {
+        this.grades = grades;
+    }
+
+    public void setGrade(String subject, int newGrade) {
+        if (grades.containsKey(subject)) {
+            grades.put(subject, newGrade);
+        }
     }
 
     public String getFormattedGrades() {
@@ -59,48 +65,26 @@ public class StudentData extends UserData {
 
         return formattedGrades.toString();
     }
-    
-    public void setGrade(String subject, int newGrade) {
-        try {
-            if (grades.containsKey(subject)) {
-                grades.put(subject, newGrade);
-                updateGradeInDatabase(subject, newGrade);
-            }
-        } catch (Exception ignored) {
-        }
-    }
-    
+
     public int getGrade(String subject) {
         return grades.get(subject);
     }
 
-    private void updateGradeInDatabase(String subject, int newGrade) {
-        try {
-            if (Database.get() != null) {
-                MongoCollection<Document> collection = Database.get().getCollection(Database.STUDENT_COLLECTION_NAME);
-                Document filter = new Document("name", getName());
-                Document update = new Document("$set", new Document("grades." + subject, newGrade));
-
-                collection.updateOne(filter, update);
-            }
-        } catch (Exception ignored) {
-        }
-    }
-    
     public double getCGPA() {
-        int total = 0;
-
-        for (int grade : grades.values()) {
-            total += grade;
-        }
+        int total = grades.values().stream().mapToInt(Integer::intValue).sum();
         return total / (double) grades.size();
+    }
+
+    @Override
+    public String getType() {
+        return STUDENT;
     }
     
     @Override
     public Document toDocument() {
-        return new Document("name", getName())
-                .append("password", getPassword())
-                .append("section", getSection())
-                .append("grades", getGrades());
+        return new Document("name", name)
+                .append("password", password)
+                .append("section", section)
+                .append("grades", grades);
     }
 }

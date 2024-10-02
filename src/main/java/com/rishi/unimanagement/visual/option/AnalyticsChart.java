@@ -11,16 +11,16 @@ import java.awt.*;
 import java.util.List;
 
 public class AnalyticsChart extends JPanel {
-    private final List<Integer> gradesList; // List to hold the grades passed to the chart
+    private final List<Integer> gradesList; 
 
     public AnalyticsChart(List<Integer> gradesList) {
-        this.gradesList = gradesList; // Store the passed grades list
+        this.gradesList = gradesList; 
         initComponents();
     }
     
     private DefaultCategoryDataset createDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        int[] gradeRanges = new int[5];  // For [0-50, 51-60, 61-70, 71-80, 81-100]
+        int[] gradeRanges = new int[5];  
 
         for (Integer grade : gradesList) {
             if (grade <= 50) gradeRanges[0]++;
@@ -40,7 +40,7 @@ public class AnalyticsChart extends JPanel {
     }
     
     private void initComponents() {
-        DefaultCategoryDataset dataset = createDataset(); // Get dataset from the grades
+        DefaultCategoryDataset dataset = createDataset(); 
         JFreeChart barChart = ChartFactory.createBarChart(
                                 "Overall Grade Distribution",
                                 "Grade Range",
@@ -51,7 +51,7 @@ public class AnalyticsChart extends JPanel {
 
         ChartPanel chartPanel = new ChartPanel(barChart);
         chartPanel.setPreferredSize(new Dimension(560, 370));
-        setLayout(new BorderLayout()); // Use BorderLayout to manage components
-        add(chartPanel, BorderLayout.CENTER); // Add chart panel to the center of the JPanel
+        setLayout(new BorderLayout()); 
+        add(chartPanel, BorderLayout.CENTER);
     }
 }

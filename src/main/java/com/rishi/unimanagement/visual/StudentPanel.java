@@ -1,7 +1,7 @@
 package com.rishi.unimanagement.visual;
 
-import com.rishi.unimanagement.data.Database;
 import com.rishi.unimanagement.data.StudentData;
+import com.rishi.unimanagement.service.StudentService;
 import com.rishi.unimanagement.visual.option.StudentCGPAOption;
 import com.rishi.unimanagement.visual.option.StudentGradesOption;
 import com.rishi.unimanagement.visual.option.ChangePassOption;
@@ -12,9 +12,13 @@ public class StudentPanel extends JPanel {
     private final StudentData student;
     private CardLayout cardLayout;
     private JPanel cardPanel;
-    
-    public StudentPanel(CardLayout cardLayout, JPanel cardPanel, String name) {
-        student = (StudentData) Database.getUserData(name);
+    /**
+     * @param cardLayout
+     * @param cardPanel
+     * @param student 
+     */
+    public StudentPanel(CardLayout cardLayout, JPanel cardPanel, StudentData student) {
+        this.student = student;
     }
 
     /**
@@ -108,7 +112,7 @@ public class StudentPanel extends JPanel {
     }//GEN-LAST:event_cgpaButtonActionPerformed
 
     private void changePassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePassButtonActionPerformed
-        ChangePassOption panel = new ChangePassOption(student);
+        ChangePassOption panel = new ChangePassOption(student, StudentService.getInstance());
 
         cardPanel.add(panel, "changepass");
         cardLayout.show(cardPanel, "changepass");

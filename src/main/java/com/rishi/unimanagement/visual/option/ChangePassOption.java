@@ -4,16 +4,16 @@
  */
 package com.rishi.unimanagement.visual.option;
 
-import com.rishi.unimanagement.data.UserData;
+import com.rishi.unimanagement.data.User;
+import com.rishi.unimanagement.service.Service;
 
 public class ChangePassOption extends javax.swing.JPanel {
-    private final UserData data;
-    /**
-     * Creates new form ChangePassOptions
-     * @param data
-     */
-    public ChangePassOption(UserData data) {
+    private final User data;
+    private final Service service;
+
+    public ChangePassOption(User data, Service service) {
         this.data = data;
+        this.service = service;
         initComponents();
     }
 
@@ -92,13 +92,14 @@ public class ChangePassOption extends javax.swing.JPanel {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         if(!newPassField.getText().equals(confirmNewPassField.getText())) return;
+
         if(oldPassField.getText() == null ? data.getPassword() != null : !oldPassField.getText().equals(data.getPassword())) {
             return;
         }
         if (newPassField.getText().matches("^(?=.*[A-Z])(?=.*[0-9])(?=.{8,})")){
             return; //weak pass
         }
-        data.setPassword(newPassField.getText());
+        service.updatePassword(data.getName(), newPassField.getText());
     }//GEN-LAST:event_submitButtonActionPerformed
 
 
