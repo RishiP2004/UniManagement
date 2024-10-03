@@ -33,7 +33,7 @@ Clone the Repository:
 bash
 Copy code
 git clone https://github.com/RishiP2004/UniManagement.git
-cd markbook-clone
+cd UniManagement
 
 Set Up MongoDB:
 
