@@ -22,7 +22,7 @@ class StudentServiceTest {
         studentRepository = mock(StudentRepository.class);
 
         studentService = StudentService.getInstance();
-        studentService.setStudentRepository(studentRepository);
+        studentService.setRepository(studentRepository);
     }
 
     @Test

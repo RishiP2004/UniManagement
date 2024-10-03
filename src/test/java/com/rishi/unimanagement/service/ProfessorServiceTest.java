@@ -20,7 +20,7 @@ class ProfessorServiceTest {
         professorRepository = mock(ProfessorRepository.class);
 
         professorService = ProfessorService.getInstance();
-        professorService.setProfessorRepository(professorRepository);
+        professorService.setRepository(professorRepository);
     }
 
     @Test

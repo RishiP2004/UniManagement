@@ -2,6 +2,7 @@ package com.rishi.unimanagement.service;
 
 import com.rishi.unimanagement.data.StudentData;
 import com.rishi.unimanagement.repo.StudentRepository;
+import com.rishi.unimanagement.repo.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,8 +15,9 @@ public class StudentService implements Service {
         studentRepository = StudentRepository.getInstance();
     }
 
-    public void setStudentRepository(StudentRepository professorRepository) {
-        this.studentRepository = professorRepository;
+    @Override
+    public void setRepository(UserRepository<?> repository) {
+        this.studentRepository = (StudentRepository) repository;
     }
 
     public static StudentService getInstance() {

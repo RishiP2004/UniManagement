@@ -1,3 +1,8 @@
-com\rishi\unimanagement\connection\DatabaseConnectionTest.class
+com\rishi\unimanagement\service\StudentServiceTest.class
+com\rishi\unimanagement\service\TAServiceTest.class
+com\rishi\unimanagement\repo\StudentRepositoryTest.class
 com\rishi\unimanagement\repo\ProfessorRepositoryTest.class
 com\rishi\unimanagement\factory\UserDataFactoryTest.class
+com\rishi\unimanagement\connection\DatabaseConnectionTest.class
+com\rishi\unimanagement\repo\TARepositoryTest.class
+com\rishi\unimanagement\service\ProfessorServiceTest.class

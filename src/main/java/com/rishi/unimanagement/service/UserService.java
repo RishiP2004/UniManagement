@@ -1,13 +1,11 @@
 package com.rishi.unimanagement.service;
 
-import com.rishi.unimanagement.data.User;
-import com.rishi.unimanagement.data.StudentData;
-import com.rishi.unimanagement.data.TAData;
-import com.rishi.unimanagement.data.ProfessorData;
+import com.rishi.unimanagement.data.*;
+import com.rishi.unimanagement.repo.AdminRepository;
 import com.rishi.unimanagement.repo.StudentRepository;
 import com.rishi.unimanagement.repo.TARepository;
 import com.rishi.unimanagement.repo.ProfessorRepository;
-
+//Used for general first-time services
 public class UserService {
     private static UserService instance;
 
@@ -32,6 +30,11 @@ public class UserService {
         ProfessorData professor = ProfessorRepository.getInstance().getUserByName(username);
         if (professor != null && professor.getPassword().equals(password)) {
             return professor;
+        }
+        Admin admin = AdminRepository.getInstance().getUserByName(username);
+
+        if (professor != null && professor.getPassword().equals(password)) {
+            return admin;
         }
         return null;
     }

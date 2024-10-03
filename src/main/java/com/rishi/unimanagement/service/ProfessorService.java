@@ -2,6 +2,7 @@ package com.rishi.unimanagement.service;
 
 import com.rishi.unimanagement.data.ProfessorData;
 import com.rishi.unimanagement.repo.ProfessorRepository;
+import com.rishi.unimanagement.repo.UserRepository;
 
 import java.util.List;
 
@@ -13,9 +14,9 @@ public class ProfessorService implements Service {
     private ProfessorService() {
         professorRepository = ProfessorRepository.getInstance();
     }
-
-    public void setProfessorRepository(ProfessorRepository professorRepository) {
-        this.professorRepository = professorRepository;
+    @Override
+    public void setRepository(UserRepository<?> repository) {
+        this.professorRepository = (ProfessorRepository) repository;
     }
 
     public static ProfessorService getInstance() {

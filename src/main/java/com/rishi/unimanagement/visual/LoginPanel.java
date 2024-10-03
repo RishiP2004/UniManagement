@@ -4,10 +4,7 @@
  */
 package com.rishi.unimanagement.visual;
 
-import com.rishi.unimanagement.data.StudentData;
-import com.rishi.unimanagement.data.TAData;
-import com.rishi.unimanagement.data.User;
-import com.rishi.unimanagement.data.ProfessorData;
+import com.rishi.unimanagement.data.*;
 import com.rishi.unimanagement.service.UserService;
 import javax.swing.*;
 import java.awt.*;
@@ -105,6 +102,10 @@ public class LoginPanel extends javax.swing.JPanel {
                     ProfessorPanel profPanel = new ProfessorPanel(cardLayout, cardPanel, profData);
                     cardPanel.add(profPanel, "professor");
                     cardLayout.show(cardPanel, "professor");
+                } else if (user instanceof Admin admin) {
+                    AdminPanel adminPanel = new AdminPanel(cardLayout, cardPanel, admin);
+                    cardPanel.add(adminPanel, "admin");
+                    cardLayout.show(cardPanel, "admin");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);

@@ -21,7 +21,7 @@ class TAServiceTest {
         taRepository = mock(TARepository.class);
 
         taService = TAService.getInstance();
-        taService.setTaRepository(taRepository);
+        taService.setRepository(taRepository);
     }
 
     @Test
