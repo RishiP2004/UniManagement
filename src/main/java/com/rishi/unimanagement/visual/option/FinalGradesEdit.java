@@ -5,6 +5,8 @@
 package com.rishi.unimanagement.visual.option;
 
 import com.rishi.unimanagement.data.StudentData;
+import com.rishi.unimanagement.service.StudentService;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +14,6 @@ public class FinalGradesEdit extends javax.swing.JPanel {
     private final StudentData student;
     /**
      * Creates new form FinalGradesEdit
-     * @param student
      */
     public FinalGradesEdit(StudentData student) {
         this.student = student;
@@ -95,7 +96,8 @@ public class FinalGradesEdit extends javax.swing.JPanel {
         if (!(grade >= 0 && grade <= 3)) {
             return;
         } 
-        student.setGrade(jTextField1.getText(), grade);
+        
+        StudentService.getInstance().updateGrade(student.getName(), jTextField1.getText(), grade);
     }//GEN-LAST:event_jTextField1PropertyChange
 
 

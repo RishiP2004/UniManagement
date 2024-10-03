@@ -4,15 +4,15 @@
  */
 package com.rishi.unimanagement.visual;
 
+import com.rishi.unimanagement.data.*;
+import com.rishi.unimanagement.service.UserService;
 import javax.swing.*;
 import java.awt.*;
-import com.rishi.unimanagement.data.Database;
-import static com.rishi.unimanagement.data.Database.getUserData;
-import com.rishi.unimanagement.data.UserData;
 
 public class LoginPanel extends javax.swing.JPanel {
     private final JPanel cardPanel;
     private final CardLayout cardLayout;
+    private final UserService service;
     
     /**
      * Creates new form LoginPanel
@@ -21,6 +21,7 @@ public class LoginPanel extends javax.swing.JPanel {
         initComponents();
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
+        this.service = UserService.getInstance();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,39 +86,44 @@ public class LoginPanel extends javax.swing.JPanel {
 
     private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
         if (performLogin()) {
-                String userName = usernameTextField.getText();
-                
-                switch(Database.getUserData(userName).getType()) {
-                    case 0 -> {
-                        StudentPanel studentPanel = new StudentPanel(cardLayout, cardPanel, userName);
+            String userName = usernameTextField.getText();
+            User user = service.validateLogin(userName, new String(passwordField.getPassword()));
 
-                        cardPanel.add(studentPanel, "student");
-                        cardLayout.show(cardPanel, "student");
-                    }
-                    case 1 -> {
-                        TAPanel taPanel = new TAPanel(cardLayout, cardPanel, userName);
-
-                        cardPanel.add(taPanel, "ta");
-                        cardLayout.show(cardPanel, "ta");
-                    }   
-                    case 2 -> {
-                        ProfessorPanel profPanel = new ProfessorPanel(cardLayout, cardPanel, userName);
-
-                        cardPanel.add(profPanel, "professor");
-                        cardLayout.show(cardPanel, "professor");
-                    }
+            if (user != null) {
+                if (user instanceof StudentData studentData) {
+                    StudentPanel studentPanel = new StudentPanel(cardLayout, cardPanel, studentData);
+                    cardPanel.add(studentPanel, "student");
+                    cardLayout.show(cardPanel, "student");
+                } else if (user instanceof TAData tAData) {
+                    TAPanel taPanel = new TAPanel(cardLayout, cardPanel, tAData);
+                    cardPanel.add(taPanel, "ta");
+                    cardLayout.show(cardPanel, "ta");
+                } else if (user instanceof ProfessorData profData) {
+                    ProfessorPanel profPanel = new ProfessorPanel(cardLayout, cardPanel, profData);
+                    cardPanel.add(profPanel, "professor");
+                    cardLayout.show(cardPanel, "professor");
+                } else if (user instanceof Admin admin) {
+                    AdminPanel adminPanel = new AdminPanel(cardLayout, cardPanel, admin);
+                    cardPanel.add(adminPanel, "admin");
+                    cardLayout.show(cardPanel, "admin");
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
+        }
     }//GEN-LAST:event_loginButtonMouseClicked
 
     private boolean performLogin() {
-        String name = usernameTextField.getText();
-
+        String username = usernameTextField.getText().trim();
         char[] passwordChars = passwordField.getPassword();
         String password = new String(passwordChars);
-        
-        UserData userData = getUserData(name);
-        return (userData != null) && userData.getPassword().length() > 0 && userData.getPassword().equals(password);
+
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username or Password cannot be empty.", "Login Failed", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        return service.validateLogin(username, password) != null;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel enterPasswordLabel;

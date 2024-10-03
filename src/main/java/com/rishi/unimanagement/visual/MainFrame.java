@@ -1,5 +1,6 @@
 package com.rishi.unimanagement.visual;
 
+import com.rishi.unimanagement.service.UserService;
 import javax.swing.*;
 import java.awt.*;
 

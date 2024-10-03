@@ -1,25 +1,24 @@
 package com.rishi.unimanagement.visual;
 
+import com.rishi.unimanagement.data.ProfessorData;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
-import com.rishi.unimanagement.data.Database;
-import com.rishi.unimanagement.data.ProfessorData;
+import com.rishi.unimanagement.repo.StudentRepository;
 import com.rishi.unimanagement.visual.option.StudentManagementOption;
 import com.rishi.unimanagement.visual.option.TAManagementOption;
 import com.rishi.unimanagement.visual.option.AnalyticsChart;
 
 public class ProfessorPanel extends javax.swing.JPanel {
-    public ProfessorData prof;
     private final CardLayout cardLayout;
     private final JPanel cardPanel;
+    private final ProfessorData prof;
     /**
      * Creates new form ProfessorPanel
      * @param cardLayout
      * @param cardPanel
-     * @param name
      */
-    public ProfessorPanel(CardLayout cardLayout, JPanel cardPanel, String name) {
-        prof = (ProfessorData) Database.getUserData(name);
+    public ProfessorPanel(CardLayout cardLayout, JPanel cardPanel, ProfessorData prof) {
+        this.prof = prof;
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
     }
@@ -109,7 +108,7 @@ public class ProfessorPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_studentButtonActionPerformed
 
     private void analyticsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyticsButtonActionPerformed
-        AnalyticsChart panel = new AnalyticsChart(Database.getAllGrades());
+        AnalyticsChart panel = new AnalyticsChart(StudentRepository.getInstance().getAllGrades());
 
         cardPanel.add(panel, "analyticsChart");
         cardLayout.show(cardPanel, "analyticsChart");

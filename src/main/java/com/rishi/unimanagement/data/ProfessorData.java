@@ -2,24 +2,42 @@ package com.rishi.unimanagement.data;
 
 import org.bson.Document;
 
-public class ProfessorData extends UserData {
+public class ProfessorData implements User {
+    private final String name;
+    private String password;
+
     public ProfessorData(String name, String password) {
-        super(name, password);
+        this.name = name;
+        this.password = password;
     }
 
     @Override
-    public String toString() {
-        return "Professor: " + name + ", Password: " + password;
+    public String getName() {
+        return name;
     }
 
     @Override
-    public int getType() {
-        return PROF;
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     @Override
+    public String getType() {
+        return PROFESSOR;
+    }
+
+    @Override
     public Document toDocument() {
-        return new Document("name", getName())
-                .append("password", getPassword());
+        return new Document("name", name)
+                .append("password", password);
     }
 }

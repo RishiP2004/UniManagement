@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.rishi.unimanagement.visual;
 
-import com.rishi.unimanagement.data.Database;
 import com.rishi.unimanagement.data.TAData;
+import com.rishi.unimanagement.service.TAService;
 import com.rishi.unimanagement.visual.option.StudentSelectionOption;
 import com.rishi.unimanagement.visual.option.ChangePassOption;
 import java.awt.CardLayout;
@@ -19,10 +15,10 @@ public class TAPanel extends javax.swing.JPanel {
      * Creates new form TAPanel
      * @param cardLayout
      * @param cardPanel
-     * @param name
+     * @param ta
      */
-    public TAPanel(CardLayout cardLayout, JPanel cardPanel, String name) {
-        ta = (TAData) Database.getUserData(name);
+    public TAPanel(CardLayout cardLayout, JPanel cardPanel, TAData ta) {
+        this.ta = ta;
     }
 
     /**
@@ -104,7 +100,7 @@ public class TAPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_editGradesButtonActionPerformed
 
     private void changePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordButtonActionPerformed
-        ChangePassOption panel = new ChangePassOption(ta);
+        ChangePassOption panel = new ChangePassOption(ta, TAService.getInstance());
 
         cardPanel.add(panel, "changePass");
         cardLayout.show(cardPanel, "changePass");

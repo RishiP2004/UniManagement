@@ -4,8 +4,7 @@
  */
 package com.rishi.unimanagement.visual.option;
 
-import com.rishi.unimanagement.data.Database;
-import com.rishi.unimanagement.data.TAData;
+import com.rishi.unimanagement.service.TAService;
 import java.awt.CardLayout;
 import java.util.List;
 import javax.swing.JPanel;
@@ -36,7 +35,7 @@ public class TAManagementOption extends javax.swing.JPanel {
 
         jLabel1.setText("Please select TA:");
 
-        List<String> tas = Database.getAllTAMapped();
+        List<String> tas = TAService.getInstance().getAllTAsMapped();
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = tas.toArray(new String[0]);
 
@@ -87,7 +86,7 @@ public class TAManagementOption extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ChangePassOption panel = new ChangePassOption((TAData) Database.getUserData(jList1.getSelectedValue()));
+        ChangePassOption panel = new ChangePassOption(TAService.getInstance().getTAByName(jList1.getSelectedValue()), TAService.getInstance());
 
         cardPanel.add(panel, "changePass");
         cardLayout.show(cardPanel, "changePass");
