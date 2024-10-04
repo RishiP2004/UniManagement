@@ -54,7 +54,7 @@ public class ExcelToMongoDB {
         workbook.close();
         fileInputStream.close();
 
-        markDataAsInserted(type);
+        markDataAsInserted(type, true);
         System.out.println("Data has been successfully inserted into MongoDB.");
     }
     
@@ -69,7 +69,7 @@ public class ExcelToMongoDB {
         }
     }
 
-    private static boolean isDataAlreadyInserted(String type) {
+    public static boolean isDataAlreadyInserted(String type) {
         try {
             File flagFile = new File(FLAG_FILE_PATH);
 
@@ -85,9 +85,31 @@ public class ExcelToMongoDB {
         return false;
     }
 
-    private static void markDataAsInserted(String type) {
+    public static void markDataAsInserted(String type, boolean status) {
         try (FileWriter writer = new FileWriter(FLAG_FILE_PATH)) {
-            writer.write(type + "_inserted: true");
+            writer.write(type + "_inserted: " + status);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void clearExcelFile(String filePath) {
+        try (FileInputStream fis = new FileInputStream(filePath);
+             Workbook workbook = new XSSFWorkbook(fis)) {
+
+            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+                Sheet sheet = workbook.getSheetAt(i);
+
+                for (Row row : sheet) {
+                    for (Cell cell : row) {
+                        cell.setBlank();
+                    }
+                }
+            }
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                workbook.write(fos);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

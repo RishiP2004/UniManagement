@@ -11,20 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseConnectionTest {
 
-    private MongoClient mongoClient;
     private MongoDatabase database;
 
     @BeforeEach
     void setUp() {
-        mongoClient = MongoClients.create("mongodb://localhost:27017");
-        database = mongoClient.getDatabase("UniManagement");
+        DatabaseConnectionManager.initialize(null);
+        database = DatabaseConnectionManager.getConnection();
     }
 
     @AfterEach
     void tearDown() {
-        if (mongoClient != null) {
-            mongoClient.close();
-        }
+        DatabaseConnectionManager.close();
     }
 
     @Test

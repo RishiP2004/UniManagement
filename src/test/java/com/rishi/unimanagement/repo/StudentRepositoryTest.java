@@ -1,8 +1,8 @@
 package com.rishi.unimanagement.repo;
 
 import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import com.rishi.unimanagement.connection.DatabaseConnectionManager;
 import com.rishi.unimanagement.data.StudentData;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterEach;
@@ -30,9 +30,8 @@ public class StudentRepositoryTest {
     void setUp() {
         mongoDBContainer = new MongoDBContainer("mongo:latest");
         mongoDBContainer.start();
-
-        mongoClient = MongoClients.create(mongoDBContainer.getConnectionString());
-        database = mongoClient.getDatabase("test");
+        DatabaseConnectionManager.initialize(mongoDBContainer.getReplicaSetUrl());
+        database = DatabaseConnectionManager.getConnection();
 
         studentRepository = StudentRepository.getInstance();
         studentRepository.setCollection(database.getCollection("students"));
@@ -41,7 +40,7 @@ public class StudentRepositoryTest {
     @AfterEach
     void tearDown() {
         database.getCollection("students").drop();
-        mongoClient.close();
+        DatabaseConnectionManager.close();
         mongoDBContainer.stop();
     }
 
@@ -59,6 +58,24 @@ public class StudentRepositoryTest {
         assertEquals("password123", foundStudent.getString("password"));
         assertEquals(101, foundStudent.getInteger("section"));
         assertEquals(90, ((Map<String, Integer>) foundStudent.get("grades")).get("Math"));
+    }
+
+    @Test
+    void testAddMultipleStudents() {
+        Map<String, Integer> grades = new HashMap<>();
+        grades.put("Math", 90);
+
+        for (int i = 0; i < 25000; i++) {
+            int section = (i / 50) + 1;
+            StudentData student = new StudentData("Student_" + i, "password123", section, grades);
+            studentRepository.addUser(student);
+        }
+        for (int i = 0; i < 25000; i++) {
+            Document foundProfessor = database.getCollection("students").find(new Document("name", "Student_" + i)).first();
+            assertNotNull(foundProfessor, "Expected student Student_" + i + " to be in the database.");
+            assertEquals("Student_" + i, foundProfessor.getString("name"));
+            assertEquals("password123", foundProfessor.getString("password"));
+        }
     }
 
     @Test
