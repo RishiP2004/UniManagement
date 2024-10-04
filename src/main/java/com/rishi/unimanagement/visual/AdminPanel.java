@@ -109,11 +109,11 @@ public class AdminPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_taButtonActionPerformed
 
     private void studentButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_studentButtonActionPerformed
-        ExcelToMongoDB.readExcelAndInsertToMongo(User.TA, ExcelToMongoDB.STUDENT_PATH, "students");
+        ExcelToMongoDB.readExcelAndInsertToMongo(User.STUDENT, ExcelToMongoDB.STUDENT_PATH, "students");
     }//GEN-LAST:event_studentButtonActionPerformed
 
     private void profButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_profButtonActionPerformed
-        ExcelToMongoDB.readExcelAndInsertToMongo(User.TA, ExcelToMongoDB.PROFESSOR_PATH, "professors");
+        ExcelToMongoDB.readExcelAndInsertToMongo(User.PROFESSOR, ExcelToMongoDB.PROFESSOR_PATH, "professors");
     }//GEN-LAST:event_profButtonActionPerformed
 
 

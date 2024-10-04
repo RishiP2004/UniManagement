@@ -3,6 +3,8 @@ package com.rishi.unimanagement.repo;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import com.rishi.unimanagement.connection.DatabaseConnectionManager;
+import com.rishi.unimanagement.data.ProfessorData;
 import com.rishi.unimanagement.data.TAData;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterEach;
@@ -25,9 +27,8 @@ public class TARepositoryTest {
     void setUp() {
         mongoDBContainer = new MongoDBContainer("mongo:latest");
         mongoDBContainer.start();
-
-        mongoClient = MongoClients.create(mongoDBContainer.getConnectionString());
-        database = mongoClient.getDatabase("test");
+        DatabaseConnectionManager.initialize(mongoDBContainer.getReplicaSetUrl());
+        database = DatabaseConnectionManager.getConnection();
 
         taRepository = TARepository.getInstance();
         taRepository.setCollection(database.getCollection("ta"));
@@ -36,7 +37,7 @@ public class TARepositoryTest {
     @AfterEach
     void tearDown() {
         database.getCollection("ta").drop();
-        mongoClient.close();
+        DatabaseConnectionManager.close();
         mongoDBContainer.stop();
     }
 
@@ -51,6 +52,20 @@ public class TARepositoryTest {
         assertEquals("Alice", foundTA.getString("name"));
         assertEquals("password123", foundTA.getString("password"));
         assertEquals(101, foundTA.getInteger("section"));
+    }
+
+    @Test
+    void testAddMultipleTAs() {
+        for (int i = 0; i < 1000; i++) {
+            TAData ta = new TAData("TA_" + i, "password123", i);
+            taRepository.addUser(ta);
+        }
+        for (int i = 0; i < 1000; i++) {
+            Document foundTA = database.getCollection("ta").find(new Document("name", "TA_" + i)).first();
+            assertNotNull(foundTA, "Expected TA TA_" + i + " to be in the database.");
+            assertEquals("TA_" + i, foundTA.getString("name"));
+            assertEquals("password123", foundTA.getString("password"));
+        }
     }
 
     @Test

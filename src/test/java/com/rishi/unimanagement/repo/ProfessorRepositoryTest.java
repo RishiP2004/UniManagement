@@ -1,8 +1,7 @@
 package com.rishi.unimanagement.repo;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
+import com.rishi.unimanagement.connection.DatabaseConnectionManager;
 import com.rishi.unimanagement.data.ProfessorData;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterEach;
@@ -17,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ProfessorRepositoryTest {
 
     private static MongoDBContainer mongoDBContainer;
-    private MongoClient mongoClient;
     private MongoDatabase database;
     private ProfessorRepository professorRepository;
 
@@ -25,9 +23,8 @@ public class ProfessorRepositoryTest {
     void setUp() {
         mongoDBContainer = new MongoDBContainer("mongo:latest");
         mongoDBContainer.start();
-
-        mongoClient = MongoClients.create(mongoDBContainer.getConnectionString());
-        database = mongoClient.getDatabase("test");
+        DatabaseConnectionManager.initialize(mongoDBContainer.getReplicaSetUrl());
+        database = DatabaseConnectionManager.getConnection();
 
         professorRepository = ProfessorRepository.getInstance();
         professorRepository.setCollection(database.getCollection("professors"));
@@ -36,7 +33,7 @@ public class ProfessorRepositoryTest {
     @AfterEach
     void tearDown() {
         database.getCollection("professors").drop();
-        mongoClient.close();
+        DatabaseConnectionManager.close();
         mongoDBContainer.stop();
     }
 
@@ -50,6 +47,20 @@ public class ProfessorRepositoryTest {
         assertNotNull(foundTA);
         assertEquals("Maje", foundTA.getString("name"));
         assertEquals("password123", foundTA.getString("password"));
+    }
+
+    @Test
+    void testAddMultipleProfessors() {
+        for (int i = 0; i < 500; i++) {
+            ProfessorData prof = new ProfessorData("Maje_" + i, "password123");
+            professorRepository.addUser(prof);
+        }
+        for (int i = 0; i < 500; i++) {
+            Document foundProfessor = database.getCollection("professors").find(new Document("name", "Maje_" + i)).first();
+            assertNotNull(foundProfessor, "Expected professor Maje_" + i + " to be in the database.");
+            assertEquals("Maje_" + i, foundProfessor.getString("name"));
+            assertEquals("password123", foundProfessor.getString("password"));
+        }
     }
 
     @Test
@@ -70,8 +81,8 @@ public class ProfessorRepositoryTest {
         professorRepository.addUser(new ProfessorData("John", "password123"));
         professorRepository.addUser(new ProfessorData("Jane", "password456"));
 
-        List<ProfessorData> allTAs = professorRepository.getAllUsers();
-        assertEquals(2, allTAs.size());
+        List<ProfessorData> allProfs = professorRepository.getAllUsers();
+        assertEquals(2, allProfs.size());
     }
 
     @Test
