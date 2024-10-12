@@ -26,6 +26,19 @@ Tested for over 25k users
 Mockito: Used for Unit testing
 testcontainers: Used for Integration testing
 
+# Usage
+Logging In:
+
+Students, Teachers, Professors and Admins can log in with their credentials, which are stored securely in the database.
+
+Dashboards:
+
+After login, each user type will have access to tailored functionality:
+
+Students: View grades, view CGPA, edit password.
+TA: Manage student grades based on their section.
+Professors: Manage student grades, TAs overall data, and check analytics data.
+Admins: Import specific MSExcel file data for a specific role.
 
 # Installation
 Clone the Repository:
@@ -50,13 +63,3 @@ Install JFreeChart library
 
 Open the project in IntelliJ or your preferred IDE.
 Build the project and run the main class to start the application.
-
-# Usage
-Logging In:
-Students, Teachers, Professors and Admins can log in with their credentials, which are stored securely in the database.
-Dashboards:
-After login, each user type will have access to tailored functionality:
-Students: View grades, view CGPA, edit password.
-TA: Manage student grades based on their section.
-Professors: Manage student grades, TAs overall data, and check analytics data.
-Admins: Import specific MSExcel file data for a specific role.
